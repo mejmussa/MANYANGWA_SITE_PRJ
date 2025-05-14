@@ -662,15 +662,15 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid copyright">
+        <div class="container-fluid footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a href="#">MANYANGWA Co.LTD</a>, All Right Reserved.
+                    <div class="col-12 copyright">
+                        &copy; <span id="current-year"></span> <a href="#">MANYANGWA Co.LTD</a>, All Rights Reserved.
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
     </div>
     <!-- Footer End -->
 
@@ -691,6 +691,10 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script>
+        // Set current year in copyright
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>    
 </body>
 
 </html>
