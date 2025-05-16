@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding: 2rem; }
+    </style>
+</head>
+<body>
+
+<h2 class="mb-4">Contact Submissions</h2>
+
+<div id="login-form">
+    <label for="password">Enter Password:</label>
+    <input type="password" id="password" class="form-control mb-2" />
+    <button onclick="checkPassword()" class="btn btn-primary">Login</button>
+</div>
+
+<div id="data-section" style="display:none;">
+    <div class="mb-3">
+        <button onclick="prevPage()" class="btn btn-secondary">Previous</button>
+        <button onclick="nextPage()" class="btn btn-secondary">Next</button>
+        <span id="page-info"></span>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th><th>Phone</th><th>Email</th><th>Message</th><th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody id="data-table-body"></tbody>
+    </table>
+</div>
+
+<script>
+const PASSWORD = "mj5050mj"; // Admin password
+let currentPage = 1;
+const pageSize = 2; // Simulate 100 per Excel file, here we use 2 for testing
+
+function checkPassword() {
+    const entered = document.getElementById("password").value;
+    if (entered === PASSWORD) {
+        document.getElementById("login-form").style.display = "none";
+        document.getElementById("data-section").style.display = "block";
+        renderTable();
+    } else {
+        alert("Incorrect password!");
+    }
+}
+
+function renderTable() {
+    let data = JSON.parse(localStorage.getItem('contactEntries') || '[]');
+    
+    // Simulate fetching from different "Excel files"
+    const totalPages = Math.ceil(data.length / pageSize);
+    if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    const pageData = data.slice(start, end);
+
+    const tbody = document.getElementById("data-table-body");
+    tbody.innerHTML = '';
+
+    pageData.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.name}</td><td>${row.phone}</td><td>${row.email}</td><td>${row.message}</td><td>${row.timestamp}</td>`;
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById("page-info").innerText = `Page ${currentPage} (${totalPages ? totalPages : 1})`;
+}
+
+function nextPage() {
+    let data = JSON.parse(localStorage.getItem('contactEntries') || '[]');
+    const totalPages = Math.ceil(data.length / pageSize);
+    if (currentPage < totalPages) {
+        currentPage++;
+        renderTable();
+    }
+}
+
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        renderTable();
+    }
+}
+</script>
+
+</body>
+</html>
