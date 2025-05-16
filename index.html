@@ -50,6 +50,11 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </head>
 
 <body>
@@ -690,10 +695,6 @@
                                     <label for="message">Message</label>
                                 </div>
                             </div>
-                            <!-- Success Message -->
-                            <div id="success-message" class="alert alert-success text-center d-none" role="alert">
-                                Message sent successfully!
-                            </div>
                             <div class="col-12 text-center">
                                 <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Send Message</button>
                             </div>
@@ -715,14 +716,14 @@
                             })
                             .then(response => {
                                 if (response.ok) {
-                                    document.getElementById('success-message').classList.remove('d-none');
+                                    toastr.success("Message sent successfully!");
                                     form.reset();
                                 } else {
-                                    alert("Something went wrong. Please try again later.");
+                                    toastr.error("Something went wrong. Please try again later.");
                                 }
                             })
                             .catch(error => {
-                                alert("Error: " + error.message);
+                                toastr.error("Error: " + error.message);
                             });
                         });
                     </script>
