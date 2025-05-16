@@ -747,13 +747,13 @@
                             const form = e.target;
                             const formData = new FormData(form);
 
-                            fetch("https://formsubmit.co/ajax/mejmussa@gmail.com", {
+                            fetch("https://script.google.com/macros/s/AKfycbx2bC47bWhhibcbqZBZBpgX4PPxdhucqOTJiDsuqEYL5hSR-zNa392shfCMt-FumFE02Q/exec ", {
                                 method: "POST",
-                                headers: { 'Accept': 'application/json' },
                                 body: formData
                             })
-                            .then(response => {
-                                if (response.ok) {
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.result === "success") {
                                     document.getElementById('success-message').classList.remove('d-none');
                                     form.reset();
                                 } else {
