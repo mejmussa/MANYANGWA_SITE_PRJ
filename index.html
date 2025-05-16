@@ -691,51 +691,81 @@
     <!-- Contact Start -->
     <div class="container-xxl py-5">
         <div class="container">
-        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-            <h6 class="section-title bg-white text-center text-primary px-3">Contact Us</h6>
-            <h2 class="display-6 mb-4">If You Have Any Question, Please Feel Free Contact Us</h2>
-        </div>
-        <div class="row g-0 justify-content-center">
-            <div class="col-lg-8 wow fadeInUp" data-wow-delay="0.5s">
-                <p class="text-center mb-4 text-muted">
-                    Have a question, need assistance, or want to start your dream project with us? Our team is ready to help you every step of the way. Reach out through the contact form, email or call us directly through our phone and email found above and below our website.
-                </p>
-                <form action="https://formsubmit.co/mejmussa@gmail.com" method="POST">
-                    <!-- Hidden fields for customization -->
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_next" value="https://manyangwa.co.tz/thank-you.html">
-                    <input type="hidden" name="_subject" value="New Contact Form Submission">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <h6 class="section-title bg-white text-center text-primary px-3">Contact Us</h6>
+                <h2 class="display-6 mb-4">If You Have Any Question, Please Feel Free Contact Us</h2>
+            </div>
 
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>
-                                <label for="name">Your Name</label>
+            <!-- Success Message -->
+            <div id="success-message" class="alert alert-success text-center d-none" role="alert">
+                ✅ Message sent successfully!
+            </div>
+
+            <div class="row g-0 justify-content-center">
+                <div class="col-lg-8 wow fadeInUp" data-wow-delay="0.5s">
+                    <p class="text-center mb-4 text-muted">
+                        Have a question, need assistance, or want to start your dream project with us? Our team is ready to help you every step of the way. Reach out through the contact form, email or call us directly through our phone and email found above and below our website.
+                    </p>
+
+                    <form id="contact-form">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>
+                                    <label for="name">Your Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                                    <label for="email">Your Email</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                                    <label for="subject">Subject</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" name="message" id="message" placeholder="Leave a message here" style="height: 200px" required></textarea>
+                                    <label for="message">Message</label>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Send Message</button>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-                                <label for="email">Your Email</label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-                                <label for="subject">Subject</label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating">
-                                <textarea class="form-control" name="message" id="message" placeholder="Leave a message here" style="height: 200px" required></textarea>
-                                <label for="message">Message</label>
-                            </div>
-                        </div>
-                        <div class="col-12 text-center">
-                            <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Send Message</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+
+                    <!-- JavaScript to handle AJAX submission -->
+                    <script>
+                        document.getElementById('contact-form').addEventListener('submit', function (e) {
+                            e.preventDefault();
+
+                            const form = e.target;
+                            const formData = new FormData(form);
+
+                            fetch("https://formsubmit.co/ajax/mejmussa@gmail.com", {
+                                method: "POST",
+                                headers: { 'Accept': 'application/json' },
+                                body: formData
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    document.getElementById('success-message').classList.remove('d-none');
+                                    form.reset();
+                                } else {
+                                    alert("Something went wrong. Please try again later.");
+                                }
+                            })
+                            .catch(error => {
+                                alert("Error: " + error.message);
+                            });
+                        });
+                    </script>
+                </div>
             </div>
         </div>
     </div>
