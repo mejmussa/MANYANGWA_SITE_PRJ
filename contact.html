@@ -239,13 +239,13 @@
                             const form = e.target;
                             const formData = new FormData(form);
 
-                            fetch("https://script.google.com/macros/s/AKfycbx2bC47bWhhibcbqZBZBpgX4PPxdhucqOTJiDsuqEYL5hSR-zNa392shfCMt-FumFE02Q/exec", {
+                            fetch("https://formsubmit.co/ajax/manyangwaemails@gmail.com", {
                                 method: "POST",
+                                headers: { 'Accept': 'application/json' },
                                 body: formData
                             })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.result === "success") {
+                            .then(response => {
+                                if (response.ok) {
                                     document.getElementById('success-message').classList.remove('d-none');
                                     form.reset();
                                 } else {
