@@ -235,45 +235,37 @@
 
                     <script>
                         document.getElementById('contact-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const form = e.target;
+                            e.preventDefault();
+                            const form = e.target;
 
-    const data = {
-        phone: form.phone.value,
-        email: form.email.value,
-        name: form.name.value,
-        message: form.message.value
-    };
+                            const data = {
+                            phone: form.phone.value,
+                            email: form.email.value,
+                            name: form.name.value,
+                            message: form.message.value
+                            };
 
-    fetch("https://script.google.com/macros/s/AKfycbwqsfthQGGpNQuVWp1z5SiBvVV1OoRallr6kDQYLNmSZ-HIrp_39qJHvA3cycmA59E41g/exec", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("HTTP status " + response.status);
-        }
-        return response.json();
-    })
-    .then(result => {
-        if (result.result === "success") {
-            document.getElementById('success-message').classList.remove('d-none');
-            form.reset();
-        } else {
-            // Show the actual error message returned from Apps Script
-            alert("Server Error: " + (result.message || "Unknown error occurred."));
-            console.error("Server returned error:", result);
-        }
-    })
-    .catch(error => {
-        alert("Fetch Error: " + error.message);
-        console.error("Fetch failed:", error);
-    });
-});
-
+                            fetch("https://script.google.com/macros/s/AKfycbyQZy6if0zMc6a54eWwaQkUNhuBHLji4evSELfEVkJxxRysNbiaYulsjuAFXGQpYoEY8Q/exec", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(data)
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                            if (result.result === "success") {
+                                document.getElementById('success-message').classList.remove('d-none');
+                                form.reset();
+                            } else {
+                                alert("Something went wrong. Please try again.");
+                            }
+                            })
+                            .catch(error => {
+                            alert("Error: " + error.message);
+                            console.error(error);
+                            });
+                        });
                     </script>
 
                 </div>
