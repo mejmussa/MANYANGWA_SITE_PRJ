@@ -745,31 +745,23 @@
                             e.preventDefault();
 
                             const form = e.target;
+                            const formData = new FormData(form);
 
-                            const data = {
-                                phone: form.phone.value,
-                                email: form.email.value,
-                                name: form.name.value,
-                                message: form.message.value
-                            };
-
-                            fetch("https://script.google.com/macros/s/AKfycbwqsfthQGGpNQuVWp1z5SiBvVV1OoRallr6kDQYLNmSZ-HIrp_39qJHvA3cycmA59E41g/exec", {
+                            fetch("https://formsubmit.co/ajax/mejmussa@gmail.com", {
                                 method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify(data)
+                                headers: { 'Accept': 'application/json' },
+                                body: formData
                             })
-                            .then(response => response.json())
-                            .then(result => {
-                                if (result.result === "success") {
+                            .then(response => {
+                                if (response.ok) {
                                     document.getElementById('success-message').classList.remove('d-none');
                                     form.reset();
                                 } else {
-                                    alert("Something went wrong. Try again.");
+                                    alert("Something went wrong. Please try again later.");
                                 }
                             })
                             .catch(error => {
                                 alert("Error: " + error.message);
-                                console.error(error);
                             });
                         });
                     </script>

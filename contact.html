@@ -232,42 +232,31 @@
                     </form>
 
                     <!-- JavaScript to handle AJAX submission -->
-
                     <script>
                         document.getElementById('contact-form').addEventListener('submit', function (e) {
                             e.preventDefault();
+
                             const form = e.target;
+                            const formData = new FormData(form);
 
-                            const data = {
-                            phone: form.phone.value,
-                            email: form.email.value,
-                            name: form.name.value,
-                            message: form.message.value
-                            };
-
-                            fetch("https://script.google.com/macros/s/AKfycbyQZy6if0zMc6a54eWwaQkUNhuBHLji4evSELfEVkJxxRysNbiaYulsjuAFXGQpYoEY8Q/exec", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(data)
+                            fetch("https://formsubmit.co/ajax/mejmussa@gmail.com", {
+                                method: "POST",
+                                headers: { 'Accept': 'application/json' },
+                                body: formData
                             })
-                            .then(response => response.json())
-                            .then(result => {
-                            if (result.result === "success") {
-                                document.getElementById('success-message').classList.remove('d-none');
-                                form.reset();
-                            } else {
-                                alert("Something went wrong. Please try again.");
-                            }
+                            .then(response => {
+                                if (response.ok) {
+                                    document.getElementById('success-message').classList.remove('d-none');
+                                    form.reset();
+                                } else {
+                                    alert("Something went wrong. Please try again later.");
+                                }
                             })
                             .catch(error => {
-                            alert("Error: " + error.message);
-                            console.error(error);
+                                alert("Error: " + error.message);
                             });
                         });
                     </script>
-
                 </div>
             </div>
         </div>
