@@ -154,16 +154,28 @@
                 <a href="service.html" class="nav-item nav-link">Services</a>
                 <a href="team.html" class="nav-item nav-link">Team</a>
                 <a href="testimonial.html" class="nav-item nav-link">Testimonials</a>
-                <!--<div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu border-0 rounded-0 rounded-bottom m-0">
-                        <a href="team.html" class="dropdown-item">Our Team</a>
-                        <a href="testimonial.html" class="dropdown-item active">Testimonial</a>
-                    </div>
-                </div>-->
                 <a href="contact.html" class="nav-item nav-link">Contact Us</a>
             </div>
             <a href="#" class="btn btn-sm btn-light rounded-pill py-2 px-4 d-none d-lg-block">Get Started</a>
+
+            <!-- Language Dropdown (positioned directly below the button) -->
+            <div class="dropdown ms-3">
+                <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-globe"></i> Language
+                </button>
+                <div class="dropdown-menu p-3" aria-labelledby="languageDropdown" style="min-width: 200px;">
+                    <h6 class="dropdown-header">Choose Language</h6>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="language" id="lang-en" value="en" checked>
+                        <label class="form-check-label" for="lang-en">English</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="language" id="lang-sw" value="sw">
+                        <label class="form-check-label" for="lang-sw">Kiswahili</label>
+                    </div>
+                    <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage()">Save</button>
+                </div>
+            </div>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -490,6 +502,30 @@
         // Set current year in copyright
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>  
+    <script>
+        function saveLanguage() {
+            const selectedLang = document.querySelector('input[name="language"]:checked').value;
+            localStorage.setItem('siteLang', selectedLang);
+
+            // Show success message with toastr
+            toastr.success("Language saved successfully", "Success");
+
+            // Optional: reload after short delay
+            setTimeout(() => {
+                location.reload();
+            }, 1500); // 1.5 seconds
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const lang = localStorage.getItem('siteLang');
+            if (lang) {
+                const radio = document.getElementById('lang-' + lang);
+                if (radio) {
+                    radio.checked = true;
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
