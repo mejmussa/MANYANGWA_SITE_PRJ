@@ -972,9 +972,9 @@
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
           console.log('User accepted the install prompt');
-          installText.textContent = 'App Installed';
-          installBtn.classList.remove('btn-light');
-          installBtn.classList.add('btn-success');
+          //installText.textContent = 'App Installed';
+          //installBtn.classList.remove('btn-light');
+          //installBtn.classList.add('btn-success');
           installBtn.style.display = 'none'; // Or remove this line if you want it hidden
         } else {
           console.log('User dismissed the install prompt');
