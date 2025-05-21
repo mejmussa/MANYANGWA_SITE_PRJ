@@ -80,6 +80,22 @@
 
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <style>
+        /* Show elements by default */
+        #installAppLink,
+        .dropdown.ms-3 {
+        display: inline-block; /* or flex, your choice */
+        }
+
+        /* Hide on small screens */
+        @media (max-width: 768px) {
+        #installAppLink,
+        .dropdown.ms-3 {
+            display: none !important;
+        }
+        }
+    </style>
 </head>
 
 <body>
