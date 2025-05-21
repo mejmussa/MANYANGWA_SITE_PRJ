@@ -218,10 +218,11 @@
     <!-- Mobile Quick Install Button -->
 <!-- Mobile Quick Install Button -->
 <div id="mobileInstallContainer" class="position-fixed" style="top: 50%; right: 0; transform: translateY(-50%); z-index: 1050; display: none;">
-    <button id="mobileInstallBtn" class="btn btn-warning btn-sm shadow rounded-pill d-flex align-items-center px-3 py-2 me-1">
-        <i class="fas fa-download me-2"></i>
-        <span id="mobileInstallText" style="display: none;">Install App</span>
-    </button>
+  <button id="mobileInstallBtn" class="btn btn-warning btn-sm shadow rounded-pill d-flex align-items-center px-3 py-2 me-1">
+    <i class="fas fa-download me-2" id="downloadIcon"></i>
+    <span id="mobileInstallText" style="display: none;">Install App</span>
+    <i class="fas fa-times ms-2" id="closeIcon" style="display: none; cursor: pointer;"></i>
+  </button>
 </div>
 
 
@@ -1002,41 +1003,54 @@
 </script>
 
 <script>
+  let deferredPrompt;
   const mobileContainer = document.getElementById('mobileInstallContainer');
   const mobileBtn = document.getElementById('mobileInstallBtn');
   const mobileText = document.getElementById('mobileInstallText');
+  const closeIcon = document.getElementById('closeIcon');
+  const downloadIcon = document.getElementById('downloadIcon');
 
-  // Show on mobile screens only if installable
+  // Show on mobile if installable
   window.addEventListener('beforeinstallprompt', (e) => {
     if (window.innerWidth <= 768 && !window.matchMedia('(display-mode: standalone)').matches) {
       e.preventDefault();
       deferredPrompt = e;
-
       mobileContainer.style.display = 'block';
 
-      // Show text when user taps the button
+      let expanded = false;
+
       mobileBtn.addEventListener('click', (event) => {
         event.preventDefault();
 
-        if (mobileText.style.display === 'none') {
-          mobileText.style.display = 'inline'; // Expand to show text
-          return;
+        if (!expanded) {
+          // Expand button
+          mobileText.style.display = 'inline';
+          closeIcon.style.display = 'inline';
+          expanded = true;
+        } else {
+          // Trigger install
+          mobileContainer.style.display = 'none';
+          if (installBtn) installBtn.style.display = 'none'; // Optional fallback
+          deferredPrompt.prompt();
+
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User installed via mobile button');
+            } else {
+              console.log('User dismissed mobile install');
+              mobileContainer.style.display = 'block';
+            }
+            deferredPrompt = null;
+          });
         }
+      });
 
-        // Hide both buttons during install
-        mobileContainer.style.display = 'none';
-        installBtn.style.display = 'none';
-
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('User installed via mobile button');
-          } else {
-            console.log('User dismissed mobile install');
-            mobileContainer.style.display = 'block';
-          }
-          deferredPrompt = null;
-        });
+      // Collapse on close icon click
+      closeIcon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileText.style.display = 'none';
+        closeIcon.style.display = 'none';
+        expanded = false;
       });
     }
   });
