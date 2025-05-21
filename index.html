@@ -185,7 +185,7 @@
         <a href="#" class="navbar-brand ms-3 d-lg-none">MENU</a>
 
         <!-- Mobile Icons Group (Language + Toggler) -->
-        <div class="d-lg-none d-flex align-items-center me-3" style="gap: 14px;">
+        <div class="d-lg-none d-flex align-items-center me-3" style="gap: 16px;">
             <!-- Language Icon for Mobile -->
             <div class="position-relative">
                 <button class="btn btn-sm btn-light rounded-circle" id="mobileLangBtn">
@@ -1092,24 +1092,35 @@
 </script>
 
 <script>
-    // Toggle language dropdown
-    document.getElementById('mobileLangBtn').addEventListener('click', function (e) {
-        e.stopPropagation(); // Prevent closing immediately
-        const dropdown = document.getElementById('mobileLangDropdown');
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    const mobileLangBtn = document.getElementById('mobileLangBtn');
+    const mobileLangDropdown = document.getElementById('mobileLangDropdown');
+    const dropdownContainer = mobileLangBtn.closest('.position-relative');
+
+    // Toggle dropdown on globe icon click
+    mobileLangBtn.addEventListener('click', function (e) {
+        e.stopPropagation(); // Prevent the global click listener from firing
+        const isVisible = mobileLangDropdown.style.display === 'block';
+        mobileLangDropdown.style.display = isVisible ? 'none' : 'block';
     });
 
-    // Hide dropdown when clicking outside
-    document.addEventListener('click', function () {
-        const dropdown = document.getElementById('mobileLangDropdown');
-        dropdown.style.display = 'none';
+    // Prevent dropdown from closing when clicking inside it
+    mobileLangDropdown.addEventListener('click', function (e) {
+        e.stopPropagation();
     });
 
+    // Hide dropdown if clicking outside
+    document.addEventListener('click', function (e) {
+        if (!dropdownContainer.contains(e.target)) {
+            mobileLangDropdown.style.display = 'none';
+        }
+    });
+
+    // Save language and close dropdown
     function saveLanguage() {
         const selectedLang = document.querySelector('input[name="language"]:checked').value;
         alert("Language saved: " + (selectedLang === 'en' ? 'English' : 'Kiswahili'));
-        document.getElementById('mobileLangDropdown').style.display = 'none';
-        // You can save to localStorage or send to backend here
+        mobileLangDropdown.style.display = 'none';
+        // Optionally, save to localStorage or backend here
     }
 </script>
 
