@@ -80,6 +80,15 @@
 
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <style>
+    @media (min-width: 992px) {
+        #mobileLangBtn,
+        #mobileLangDropdown {
+            display: none !important;
+        }
+    }
+</style>
+
 </head>
 
 <body>
@@ -174,9 +183,37 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-primary navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
         <a href="#" class="navbar-brand ms-3 d-lg-none">MENU</a>
-        <button type="button" class="navbar-toggler me-3" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+
+        <!-- Mobile Icons Group (Language + Toggler) -->
+        <div class="d-lg-none d-flex align-items-center me-3" style="gap: 14px;">
+            <!-- Language Icon for Mobile -->
+            <div class="position-relative">
+                <button class="btn btn-sm btn-light rounded-circle" id="mobileLangBtn">
+                    <i class="fas fa-globe"></i>
+                </button>
+                <i class="fas fa-caret-down text-white" style="font-size: 0.8rem; margin-left: 0.1cm;"></i>
+
+                <!-- Language Dropdown Overlay -->
+                <div id="mobileLangDropdown" class="position-absolute bg-white rounded shadow p-3" style="top: 110%; right: 0; width: 220px; display: none; z-index: 1050;">
+                    <h6 class="mb-2">Choose Language</h6>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="language" id="lang-en" value="en" checked>
+                        <label class="form-check-label" for="lang-en">English</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="language" id="lang-sw" value="sw">
+                        <label class="form-check-label" for="lang-sw">Kiswahili</label>
+                    </div>
+                    <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage()">Save</button>
+                </div>
+            </div>
+
+            <!-- Navbar Toggler Button -->
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav me-auto p-3 p-lg-0">
                 <a href="index.html" class="nav-item nav-link">Home</a>
@@ -193,7 +230,7 @@
 
 
 
-            <!-- Language Dropdown (positioned directly below the button) 
+            <!-- Language Dropdown (positioned directly below the button) -->
             <div class="dropdown ms-3">
                 <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-globe"></i> Language
@@ -210,7 +247,7 @@
                     </div>
                     <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage()">Save</button>
                 </div>
-            </div>-->
+            </div>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -1054,6 +1091,27 @@
   });
 </script>
 
+<script>
+    // Toggle language dropdown
+    document.getElementById('mobileLangBtn').addEventListener('click', function (e) {
+        e.stopPropagation(); // Prevent closing immediately
+        const dropdown = document.getElementById('mobileLangDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Hide dropdown when clicking outside
+    document.addEventListener('click', function () {
+        const dropdown = document.getElementById('mobileLangDropdown');
+        dropdown.style.display = 'none';
+    });
+
+    function saveLanguage() {
+        const selectedLang = document.querySelector('input[name="language"]:checked').value;
+        alert("Language saved: " + (selectedLang === 'en' ? 'English' : 'Kiswahili'));
+        document.getElementById('mobileLangDropdown').style.display = 'none';
+        // You can save to localStorage or send to backend here
+    }
+</script>
 
 
 </body>
