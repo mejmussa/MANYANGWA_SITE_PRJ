@@ -260,8 +260,13 @@
     <div id="mobileInstallContainer" class="position-fixed" style="top: 45%; right: 0; transform: translateY(-50%); z-index: 1050; display: none;">
         <button id="mobileInstallBtn" class="btn btn-sm shadow rounded-pill d-flex align-items-center px-3 py-2 me-1"
                 style="background-color: #009CFF; color: #fff; border: 1px solid #3b8af0;">
-            <i class="fas fa-download me-2" id="downloadIcon"></i>
-            <span id="mobileInstallText" style="display: none;">Install App</span>
+            <!-- Collapsed text -->
+            <span id="mobileAppWord" class="fst-italic">App</span>
+
+            <!-- Expanded text -->
+            <span id="mobileInstallText" class="fst-italic" style="display: none;">Install App</span>
+
+            <!-- Close icon -->
             <i class="fas fa-times ms-2" id="closeIcon" style="display: none; cursor: pointer;"></i>
         </button>
     </div>
@@ -527,6 +532,7 @@
     let deferredPrompt = null;
     const mobileContainer = document.getElementById('mobileInstallContainer');
     const mobileBtn = document.getElementById('mobileInstallBtn');
+    const appWord = document.getElementById('mobileAppWord');
     const mobileText = document.getElementById('mobileInstallText');
     const closeIcon = document.getElementById('closeIcon');
 
@@ -544,6 +550,7 @@
           event.preventDefault();
 
           if (!expanded) {
+            appWord.style.display = 'none';
             mobileText.style.display = 'inline';
             closeIcon.style.display = 'inline';
             expanded = true;
@@ -569,6 +576,7 @@
           e.stopPropagation();
           mobileText.style.display = 'none';
           closeIcon.style.display = 'none';
+          appWord.style.display = 'inline';
           expanded = false;
         };
       }
@@ -579,6 +587,7 @@
       mobileContainer.style.display = 'none';
     });
 
+    // Also hide if already opened in standalone mode
     if (window.matchMedia('(display-mode: standalone)').matches) {
       mobileContainer.style.display = 'none';
     }
