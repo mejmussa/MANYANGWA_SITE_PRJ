@@ -986,20 +986,20 @@
   });
 
   // If already installed
-  window.addEventListener('appinstalled', () => {
-    installText.textContent = 'App Installed';
-    installBtn.classList.remove('btn-light');
-    installBtn.classList.add('btn-success');
-    installBtn.style.display = 'inline-block'; // or 'none' to hide it
-  });
+  //window.addEventListener('appinstalled', () => {
+   // installText.textContent = 'App Installed';
+   // installBtn.classList.remove('btn-light');
+   // installBtn.classList.add('btn-success');
+   // installBtn.style.display = 'inline-block'; // or 'none' to hide it
+  //});
 
   // Extra: if launched in standalone mode, already installed
-  if (window.matchMedia('(display-mode: standalone)').matches) {
-    installText.textContent = 'App Installed';
-    installBtn.classList.remove('btn-light');
-    installBtn.classList.add('btn-success');
-    installBtn.style.display = 'inline-block'; // or 'none'
-  }
+  //if (window.matchMedia('(display-mode: standalone)').matches) {
+  //  installText.textContent = 'App Installed';
+  //  installBtn.classList.remove('btn-light');
+  //  installBtn.classList.add('btn-success');
+  //  installBtn.style.display = 'inline-block'; // or 'none'
+  //}
 </script>
 
 
