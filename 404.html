@@ -81,22 +81,6 @@
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     
-    <style>
-        /* By default, show everything */
-#installAppLink,
-.dropdown {
-  display: inline-block; /* or flex, or whatever you prefer */
-}
-
-/* On smaller screens, hide these elements */
-@media (max-width: 768px) {
-  #installAppLink,
-  .dropdown {
-    display: none !important;
-  }
-}
-
-    </style>
 </head>
 <body>
     <!-- Spinner Start -->
@@ -230,14 +214,14 @@
                 <a href="contact.html" class="nav-item nav-link">Contact Us</a>
             </div>
             <!---<a href="#" class="btn btn-sm btn-light rounded-pill py-2 px-4 d-none d-lg-block">Get Started</a>-->
-            <a id="installAppLink" class="btn btn-sm btn-light rounded-pill py-2 px-4" href="#">
+            <a id="installAppLink" class="btn btn-sm btn-light rounded-pill py-2 px-4 d-none d-lg-block" href="#">
                 <span id="installAppText">Install App</span>
             </a>
 
 
 
             <!-- Language Dropdown (positioned directly below the button) -->
-            <div class="dropdown ms-3">
+            <div class="dropdown ms-3 d-none d-lg-block">
                 <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-globe"></i> Language
                 </button>
