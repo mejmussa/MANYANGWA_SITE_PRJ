@@ -188,9 +188,10 @@
                 <a href="contact.html" class="nav-item nav-link">Contact Us</a>
             </div>
             <!---<a href="#" class="btn btn-sm btn-light rounded-pill py-2 px-4 d-none d-lg-block">Get Started</a>-->
-            <a class="btn btn-sm btn-light rounded-pill py-2 px-4" href="#" id="installAppLink" class="text-primary text-decoration-none" style="display: none;">
+            <a id="installAppLink" class="btn btn-sm btn-light rounded-pill py-2 px-4" href="#" style="display: none;">
                 <span id="installAppText">Install App</span>
             </a>
+
 
 
             <!-- Language Dropdown (positioned directly below the button) 
@@ -953,53 +954,39 @@
     <script>
   let deferredPrompt;
   const installBtn = document.getElementById('installAppLink');
-  const installText = document.getElementById('installAppText');
 
-  // Show prompt if installable
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
+  // Only show if not installed
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
 
-    if (!window.matchMedia('(display-mode: standalone)').matches) {
-      installBtn.style.display = 'inline-block'; // Show on all screen sizes
-    }
-
-    installBtn.addEventListener('click', (e) => {
+  if (!isStandalone) {
+    window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
-      installBtn.style.display = 'none';
+      deferredPrompt = e;
 
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the install prompt');
-          //installText.textContent = 'App Installed';
-          //installBtn.classList.remove('btn-light');
-          //installBtn.classList.add('btn-success');
-          //installBtn.style.display = 'none'; // Or remove this line if you want it hidden
-        } else {
-          console.log('User dismissed the install prompt');
-          installBtn.style.display = 'inline-block';
-        }
-        deferredPrompt = null;
+      installBtn.style.display = 'inline-block'; // Show install button
+
+      installBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        installBtn.style.display = 'none'; // Hide button after click
+
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+          } else {
+            console.log('User dismissed the install prompt');
+            installBtn.style.display = 'inline-block'; // Show again if canceled
+          }
+          deferredPrompt = null;
+        });
       });
     });
-  });
 
-  // If already installed
-  //window.addEventListener('appinstalled', () => {
-   // installText.textContent = 'App Installed';
-   // installBtn.classList.remove('btn-light');
-   // installBtn.classList.add('btn-success');
-   // installBtn.style.display = 'inline-block'; // or 'none' to hide it
-  //});
-
-  // Extra: if launched in standalone mode, already installed
-  //if (window.matchMedia('(display-mode: standalone)').matches) {
-  //  installText.textContent = 'App Installed';
-  //  installBtn.classList.remove('btn-light');
-  //  installBtn.classList.add('btn-success');
-  //  installBtn.style.display = 'inline-block'; // or 'none'
-  //}
+    // Hide install button after app is installed
+    window.addEventListener('appinstalled', () => {
+      installBtn.style.display = 'none';
+    });
+  }
 </script>
 
 
