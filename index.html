@@ -90,7 +90,7 @@
     </div>
     <!-- Spinner End -->
 
-    <button id="installBtn" style="display:none;">Install Manyangwa App</button>
+    <!--<button id="installBtn" style="display:none;">Install Manyangwa App</button>-->
 
 
 
@@ -187,7 +187,11 @@
                 <a href="testimonial.html" class="nav-item nav-link">Testimonials</a>
                 <a href="contact.html" class="nav-item nav-link">Contact Us</a>
             </div>
-            <a href="#" class="btn btn-sm btn-light rounded-pill py-2 px-4 d-none d-lg-block">Get Started</a>
+            <!---<a href="#" class="btn btn-sm btn-light rounded-pill py-2 px-4 d-none d-lg-block">Get Started</a>-->
+            <a href="#" id="installAppLink" class="text-primary text-decoration-none" style="display: none;">
+                <i class="fas fa-download me-1"></i> <span id="installAppText">Install App</span>
+            </a>
+
 
             <!-- Language Dropdown (positioned directly below the button) 
             <div class="dropdown ms-3">
@@ -936,7 +940,7 @@
 
     <script>
   let deferredPrompt;
-  const installBtn = document.getElementById('installBtn');
+  const installBtn = document.getElementById('installAppLink');
 
   window.addEventListener('beforeinstallprompt', (e) => {
     // Prevent the mini-infobar from appearing
