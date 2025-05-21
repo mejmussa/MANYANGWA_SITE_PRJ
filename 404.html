@@ -80,6 +80,23 @@
 
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
+    <style>
+        /* By default, show everything */
+#installAppLink,
+.dropdown {
+  display: inline-block; /* or flex, or whatever you prefer */
+}
+
+/* On smaller screens, hide these elements */
+@media (max-width: 768px) {
+  #installAppLink,
+  .dropdown {
+    display: none !important;
+  }
+}
+
+    </style>
 </head>
 <body>
     <!-- Spinner Start -->
@@ -213,30 +230,25 @@
                 <a href="contact.html" class="nav-item nav-link">Contact Us</a>
             </div>
             <!---<a href="#" class="btn btn-sm btn-light rounded-pill py-2 px-4 d-none d-lg-block">Get Started</a>-->
-            <!-- Right side controls (visible on large screens only) -->
-            <div class="d-none d-lg-flex align-items-center ms-auto" style="gap: 12px;">
-                <!-- Install App Button -->
-                <a id="installAppLink" class="btn btn-sm btn-light rounded-pill py-2 px-4" href="#" style="display: none;">
-                    <span id="installAppText">Install App</span>
-                </a>
+            <a id="installAppLink" class="btn btn-sm btn-light rounded-pill py-2 px-4" href="#">
+                <span id="installAppText">Install App</span>
+            </a>
 
-                <!-- Language Dropdown -->
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-globe"></i> Language
-                    </button>
-                    <div class="dropdown-menu p-3" aria-labelledby="languageDropdown" style="min-width: 200px;">
-                        <h6 class="dropdown-header">Choose Language</h6>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="language" id="lang-en" value="en" checked>
-                            <label class="form-check-label" for="lang-en">English</label>
-                        </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" name="language" id="lang-sw" value="sw">
-                            <label class="form-check-label" for="lang-sw">Kiswahili</label>
-                        </div>
-                        <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage()">Save</button>
+                <div class="dropdown ms-3">
+                <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-globe"></i> Language
+                </button>
+                <div class="dropdown-menu p-3" aria-labelledby="languageDropdown" style="min-width: 200px;">
+                    <h6 class="dropdown-header">Choose Language</h6>
+                    <div class="form-check">
+                    <input class="form-check-input" type="radio" name="language" id="lang-en" value="en" checked>
+                    <label class="form-check-label" for="lang-en">English</label>
                     </div>
+                    <div class="form-check mb-3">
+                    <input class="form-check-input" type="radio" name="language" id="lang-sw" value="sw">
+                    <label class="form-check-label" for="lang-sw">Kiswahili</label>
+                    </div>
+                    <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage()">Save</button>
                 </div>
             </div>
         </div>
