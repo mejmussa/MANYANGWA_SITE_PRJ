@@ -215,7 +215,6 @@
     </nav>
     <!-- Navbar End -->
 
-    <!-- Mobile Quick Install Button -->
 <!-- Mobile Quick Install Button -->
 <div id="mobileInstallContainer" class="position-fixed" style="top: 50%; right: 0; transform: translateY(-50%); z-index: 1050; display: none;">
   <button id="mobileInstallBtn" class="btn btn-warning btn-sm shadow rounded-pill d-flex align-items-center px-3 py-2 me-1">
@@ -1002,61 +1001,68 @@
   }
 </script>
 
+
 <script>
-  const mobileContainer = document.getElementById('mobileInstallContainer');
-  const mobileBtn = document.getElementById('mobileInstallBtn');
-  const mobileText = document.getElementById('mobileInstallText');
-   const closeIcon = document.getElementById('closeIcon');
+  document.addEventListener('DOMContentLoaded', () => {
+    let deferredPrompt = null;
+    const mobileContainer = document.getElementById('mobileInstallContainer');
+    const mobileBtn = document.getElementById('mobileInstallBtn');
+    const mobileText = document.getElementById('mobileInstallText');
+    const closeIcon = document.getElementById('closeIcon');
 
-  // Show on mobile screens only if installable
-  window.addEventListener('beforeinstallprompt', (e) => {
-    if (window.innerWidth <= 768 && !window.matchMedia('(display-mode: standalone)').matches) {
-      e.preventDefault();
-      deferredPrompt = e;
+    let expanded = false;
 
-      mobileContainer.style.display = 'block';
+    // Show only on mobile and if not installed
+    window.addEventListener('beforeinstallprompt', (e) => {
+      if (window.innerWidth <= 768 && !window.matchMedia('(display-mode: standalone)').matches) {
+        e.preventDefault();
+        deferredPrompt = e;
 
-      // Show text when user taps the button
-      mobileBtn.addEventListener('click', (event) => {
-        event.preventDefault();
+        mobileContainer.style.display = 'block';
 
-        if (mobileText.style.display === 'none') {
-          mobileText.style.display = 'inline'; // Expand to show text
-          return;
-        }
+        mobileBtn.onclick = (event) => {
+          event.preventDefault();
 
-        // Hide both buttons during install
-        mobileContainer.style.display = 'none';
-        installBtn.style.display = 'none';
-
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('User installed via mobile button');
-          } else {
-            console.log('User dismissed mobile install');
-            mobileContainer.style.display = 'block';
+          if (!expanded) {
+            mobileText.style.display = 'inline';
+            closeIcon.style.display = 'inline';
+            expanded = true;
+            return;
           }
-          deferredPrompt = null;
-        });
-      });
-      closeIcon.addEventListener('click', (e) => {
-        e.stopPropagation();
-        mobileText.style.display = 'none';
-        closeIcon.style.display = 'none';
-        expanded = false;
-      });
+
+          if (deferredPrompt) {
+            mobileContainer.style.display = 'none';
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted install');
+              } else {
+                console.log('User dismissed install');
+                mobileContainer.style.display = 'block';
+              }
+              deferredPrompt = null;
+            });
+          }
+        };
+
+        closeIcon.onclick = (e) => {
+          e.stopPropagation();
+          mobileText.style.display = 'none';
+          closeIcon.style.display = 'none';
+          expanded = false;
+        };
+      }
+    });
+
+    // Hide if already installed
+    window.addEventListener('appinstalled', () => {
+      mobileContainer.style.display = 'none';
+    });
+
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      mobileContainer.style.display = 'none';
     }
   });
-
-  // Hide if already installed
-  window.addEventListener('appinstalled', () => {
-    mobileContainer.style.display = 'none';
-  });
-
-  if (window.matchMedia('(display-mode: standalone)').matches) {
-    mobileContainer.style.display = 'none';
-  }
 </script>
 
 
