@@ -1003,49 +1003,43 @@
 </script>
 
 <script>
-  let deferredPrompt;
   const mobileContainer = document.getElementById('mobileInstallContainer');
   const mobileBtn = document.getElementById('mobileInstallBtn');
   const mobileText = document.getElementById('mobileInstallText');
-  const closeIcon = document.getElementById('closeIcon');
-  const downloadIcon = document.getElementById('downloadIcon');
+   const closeIcon = document.getElementById('closeIcon');
 
-  // Show on mobile if installable
+  // Show on mobile screens only if installable
   window.addEventListener('beforeinstallprompt', (e) => {
     if (window.innerWidth <= 768 && !window.matchMedia('(display-mode: standalone)').matches) {
       e.preventDefault();
       deferredPrompt = e;
+
       mobileContainer.style.display = 'block';
 
-      let expanded = false;
-
+      // Show text when user taps the button
       mobileBtn.addEventListener('click', (event) => {
         event.preventDefault();
 
-        if (!expanded) {
-          // Expand button
-          mobileText.style.display = 'inline';
-          closeIcon.style.display = 'inline';
-          expanded = true;
-        } else {
-          // Trigger install
-          mobileContainer.style.display = 'none';
-          if (installBtn) installBtn.style.display = 'none'; // Optional fallback
-          deferredPrompt.prompt();
-
-          deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-              console.log('User installed via mobile button');
-            } else {
-              console.log('User dismissed mobile install');
-              mobileContainer.style.display = 'block';
-            }
-            deferredPrompt = null;
-          });
+        if (mobileText.style.display === 'none') {
+          mobileText.style.display = 'inline'; // Expand to show text
+          return;
         }
-      });
 
-      // Collapse on close icon click
+        // Hide both buttons during install
+        mobileContainer.style.display = 'none';
+        installBtn.style.display = 'none';
+
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User installed via mobile button');
+          } else {
+            console.log('User dismissed mobile install');
+            mobileContainer.style.display = 'block';
+          }
+          deferredPrompt = null;
+        });
+      });
       closeIcon.addEventListener('click', (e) => {
         e.stopPropagation();
         mobileText.style.display = 'none';
