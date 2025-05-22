@@ -723,9 +723,26 @@
 
     let expanded = false;
 
+    // Check if app is already installed
+    const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches;
+
+    if (isAppInstalled) {
+      // Hide install UI
+      if (mobileContainer) mobileContainer.style.display = 'none';
+
+      // Show toastr message
+      toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "timeOut": "5000", // 5 seconds
+        "positionClass": "toast-top-center"
+      };
+      toastr.info('You already have the app installed');
+    }
+
     // Show only on mobile and if not installed
     window.addEventListener('beforeinstallprompt', (e) => {
-      if (window.innerWidth <= 768 && !window.matchMedia('(display-mode: standalone)').matches) {
+      if (window.innerWidth <= 768 && !isAppInstalled) {
         e.preventDefault();
         deferredPrompt = e;
 
@@ -767,15 +784,10 @@
       }
     });
 
-    // Hide if already installed
+    // Hide if app is installed after prompt
     window.addEventListener('appinstalled', () => {
       mobileContainer.style.display = 'none';
     });
-
-    // Also hide if already opened in standalone mode
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      mobileContainer.style.display = 'none';
-    }
   });
 </script>
 
