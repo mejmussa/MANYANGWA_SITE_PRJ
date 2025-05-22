@@ -1111,31 +1111,41 @@
     const mobileLangDropdown = document.getElementById('mobileLangDropdown');
     const dropdownContainer = mobileLangBtn.closest('.position-relative');
 
-    // Toggle dropdown on globe icon click
+    // Set saved language or default to English
+    document.addEventListener('DOMContentLoaded', function () {
+        const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+        document.querySelector(`#lang-${savedLang}`).checked = true;
+    });
+
+    // Toggle dropdown
     mobileLangBtn.addEventListener('click', function (e) {
-        e.stopPropagation(); // Prevent the global click listener from firing
+        e.stopPropagation();
         const isVisible = mobileLangDropdown.style.display === 'block';
         mobileLangDropdown.style.display = isVisible ? 'none' : 'block';
     });
 
-    // Prevent dropdown from closing when clicking inside it
+    // Prevent closing on dropdown click
     mobileLangDropdown.addEventListener('click', function (e) {
         e.stopPropagation();
     });
 
-    // Hide dropdown if clicking outside
+    // Hide dropdown on outside click
     document.addEventListener('click', function (e) {
         if (!dropdownContainer.contains(e.target)) {
             mobileLangDropdown.style.display = 'none';
         }
     });
 
-    // Save language and close dropdown
+    // Save language
     function saveLanguage() {
         const selectedLang = document.querySelector('input[name="language"]:checked').value;
+        localStorage.setItem('preferredLanguage', selectedLang);
+
         alert("Language saved: " + (selectedLang === 'en' ? 'English' : 'Kiswahili'));
         mobileLangDropdown.style.display = 'none';
-        // Optionally, save to localStorage or backend here
+
+        // Optional: reload or change text dynamically
+        // location.reload();
     }
 </script>
 
