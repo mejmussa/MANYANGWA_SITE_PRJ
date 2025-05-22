@@ -1053,7 +1053,7 @@
 
     let expanded = false;
 
-    // Show only on mobile and if not already installed
+    // Show only on mobile and if not installed
     window.addEventListener('beforeinstallprompt', (e) => {
       if (window.innerWidth <= 768 && !window.matchMedia('(display-mode: standalone)').matches) {
         e.preventDefault();
@@ -1067,28 +1067,20 @@
           if (!expanded) {
             appWord.style.display = 'none';
             mobileText.style.display = 'inline';
-            mobileText.innerText = 'Install App';
             closeIcon.style.display = 'inline';
             expanded = true;
             return;
           }
 
           if (deferredPrompt) {
-            // Show "Installing..." while waiting
-            mobileText.innerText = 'Installing...';
-            closeIcon.style.display = 'none';
-
+            mobileContainer.style.display = 'none';
             deferredPrompt.prompt();
-
             deferredPrompt.userChoice.then((choiceResult) => {
               if (choiceResult.outcome === 'accepted') {
                 console.log('User accepted install');
-                // Wait for appinstalled event to hide
               } else {
                 console.log('User dismissed install');
-                // Revert button to previous state
-                mobileText.innerText = 'Install App';
-                closeIcon.style.display = 'inline';
+                mobileContainer.style.display = 'block';
               }
               deferredPrompt = null;
             });
@@ -1105,9 +1097,8 @@
       }
     });
 
-    // When app is installed, hide the button completely
+    // Hide if already installed
     window.addEventListener('appinstalled', () => {
-      console.log('App was installed');
       mobileContainer.style.display = 'none';
     });
 
