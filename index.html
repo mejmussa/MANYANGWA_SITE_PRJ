@@ -1078,6 +1078,8 @@
             deferredPrompt.userChoice.then((choiceResult) => {
               if (choiceResult.outcome === 'accepted') {
                 console.log('User accepted install');
+                // Optional: set a flag to indicate install accepted
+                sessionStorage.setItem('pwa-installed', 'true');
               } else {
                 console.log('User dismissed install');
                 mobileContainer.style.display = 'block';
@@ -1097,17 +1099,32 @@
       }
     });
 
-    // Hide if already installed
+    // After app is installed
     window.addEventListener('appinstalled', () => {
+      console.log('PWA installed');
+
       mobileContainer.style.display = 'none';
+
+      // Simulate app launch by redirecting to app URL or reloading
+      // Option 1: Use custom protocol (e.g., myapp://home) if supported
+      // window.location.href = "myapp://home";
+
+      // Option 2: Reload to enter standalone mode if possible
+      if (sessionStorage.getItem('pwa-installed') === 'true') {
+        sessionStorage.removeItem('pwa-installed');
+        setTimeout(() => {
+          window.location.reload();  // will open in app if clicked from home screen
+        }, 1000);
+      }
     });
 
-    // Also hide if already opened in standalone mode
+    // Hide if already opened in standalone mode
     if (window.matchMedia('(display-mode: standalone)').matches) {
       mobileContainer.style.display = 'none';
     }
   });
 </script>
+
 
 
 <script>
