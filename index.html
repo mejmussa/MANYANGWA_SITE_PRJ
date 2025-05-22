@@ -1007,55 +1007,39 @@
   let deferredPrompt;
   const installBtn = document.getElementById('installAppLink');
 
+  // Only show if not installed
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-  const isPWAInstalled = isStandalone || localStorage.getItem('pwa_installed') === 'true';
 
-  if (isPWAInstalled) {
-    if (installBtn) installBtn.style.display = 'none';
-
-    // Show user info
-    toastr.options = {
-      closeButton: true,
-      progressBar: true,
-      timeOut: 5000,
-      positionClass: 'toast-top-center'
-    };
-    toastr.info('You already have the app installed. Launch it from your home screen or desktop.');
-  } else {
+  if (!isStandalone) {
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
 
-      if (installBtn) {
-        installBtn.style.display = 'inline-block';
+      installBtn.style.display = 'inline-block'; // Show install button
 
-        installBtn.addEventListener('click', async (event) => {
-          event.preventDefault();
-          installBtn.style.display = 'none';
+      installBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        installBtn.style.display = 'none'; // Hide button after click
 
-          if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-              console.log('User accepted the install prompt');
-            } else {
-              console.log('User dismissed the install prompt');
-              installBtn.style.display = 'inline-block';
-            }
-            deferredPrompt = null;
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+          } else {
+            console.log('User dismissed the install prompt');
+            installBtn.style.display = 'inline-block'; // Show again if canceled
           }
+          deferredPrompt = null;
         });
-      }
+      });
     });
 
+    // Hide install button after app is installed
     window.addEventListener('appinstalled', () => {
-      localStorage.setItem('pwa_installed', 'true');
-      if (installBtn) installBtn.style.display = 'none';
+      installBtn.style.display = 'none';
     });
   }
 </script>
-
-
 
 
 <script>
