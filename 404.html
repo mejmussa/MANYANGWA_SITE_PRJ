@@ -500,8 +500,6 @@
 </script>
 
 
-
-
 <script>
     // Save selected language to localStorage and show Toastr message
     function saveLanguage() {
@@ -525,13 +523,20 @@
 
     // On page load
     window.addEventListener('DOMContentLoaded', function () {
+        // Default to English if no language saved
         const savedLang = localStorage.getItem('siteLang') || 'en';
-        const radio = document.getElementById('lang-' + savedLang);
-        if (radio) {
-            radio.checked = true;
-        }
 
-        // Mobile-specific dropdown handling
+        // Set radio buttons (both desktop and mobile)
+        const radios = document.querySelectorAll('input[name="language"]');
+        radios.forEach(radio => {
+            if (radio.value === savedLang) {
+                radio.checked = true;
+            } else {
+                radio.checked = false;
+            }
+        });
+
+        // Mobile-specific dropdown behavior
         const mobileLangBtn = document.getElementById('mobileLangBtn');
         const mobileLangDropdown = document.getElementById('mobileLangDropdown');
 
@@ -556,6 +561,7 @@
         }
     });
 </script>
+
 
 </body>
 </html>
