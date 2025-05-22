@@ -1007,52 +1007,54 @@
   let deferredPrompt;
   const installBtn = document.getElementById('installAppLink');
 
-  // Detect if app is already installed
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+  const isPWAInstalled = isStandalone || localStorage.getItem('pwa_installed') === 'true';
 
-  if (isStandalone) {
-    // Hide install button if already installed
+  if (isPWAInstalled) {
     if (installBtn) installBtn.style.display = 'none';
 
-    // Show toastr message
+    // Show user info
     toastr.options = {
-      "closeButton": true,
-      "progressBar": true,
-      "timeOut": "5000",  // 5 seconds
-      "positionClass": "toast-top-center"
+      closeButton: true,
+      progressBar: true,
+      timeOut: 5000,
+      positionClass: 'toast-top-center'
     };
-    toastr.info('You already have the app installed');
+    toastr.info('You already have the app installed. Launch it from your home screen or desktop.');
   } else {
-    // Show install prompt
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
 
-      if (installBtn) installBtn.style.display = 'inline-block';
+      if (installBtn) {
+        installBtn.style.display = 'inline-block';
 
-      installBtn.addEventListener('click', (event) => {
-        event.preventDefault();
-        installBtn.style.display = 'none';
+        installBtn.addEventListener('click', async (event) => {
+          event.preventDefault();
+          installBtn.style.display = 'none';
 
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted the install prompt');
-          } else {
-            console.log('User dismissed the install prompt');
-            installBtn.style.display = 'inline-block'; // Show again if canceled
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+              console.log('User accepted the install prompt');
+            } else {
+              console.log('User dismissed the install prompt');
+              installBtn.style.display = 'inline-block';
+            }
+            deferredPrompt = null;
           }
-          deferredPrompt = null;
         });
-      });
+      }
     });
 
-    // Hide button after install
     window.addEventListener('appinstalled', () => {
-      installBtn.style.display = 'none';
+      localStorage.setItem('pwa_installed', 'true');
+      if (installBtn) installBtn.style.display = 'none';
     });
   }
 </script>
+
 
 
 
