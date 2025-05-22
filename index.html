@@ -1007,19 +1007,32 @@
   let deferredPrompt;
   const installBtn = document.getElementById('installAppLink');
 
-  // Only show if not installed
+  // Detect if app is already installed
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
 
-  if (!isStandalone) {
+  if (isStandalone) {
+    // Hide install button if already installed
+    if (installBtn) installBtn.style.display = 'none';
+
+    // Show toastr message
+    toastr.options = {
+      "closeButton": true,
+      "progressBar": true,
+      "timeOut": "5000",  // 5 seconds
+      "positionClass": "toast-top-center"
+    };
+    toastr.info('You already have the app installed');
+  } else {
+    // Show install prompt
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
 
-      installBtn.style.display = 'inline-block'; // Show install button
+      if (installBtn) installBtn.style.display = 'inline-block';
 
       installBtn.addEventListener('click', (event) => {
         event.preventDefault();
-        installBtn.style.display = 'none'; // Hide button after click
+        installBtn.style.display = 'none';
 
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
@@ -1034,12 +1047,13 @@
       });
     });
 
-    // Hide install button after app is installed
+    // Hide button after install
     window.addEventListener('appinstalled', () => {
       installBtn.style.display = 'none';
     });
   }
 </script>
+
 
 
 <script>
