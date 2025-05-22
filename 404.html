@@ -400,6 +400,7 @@
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script> 
 
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     let deferredPrompt = null;
@@ -421,13 +422,13 @@
       if (installBtn) installBtn.style.display = 'none';
       if (mobileContainer) mobileContainer.style.display = 'none';
 
-      toastr.options = {
-        closeButton: true,
-        progressBar: true,
-        timeOut: 3000,
-        positionClass: 'toast-top-center'
-      };
-      toastr.info('You already have the app installed');
+      //toastr.options = {
+      //  closeButton: true,
+      //  progressBar: true,
+      //  timeOut: 3000,
+      //  positionClass: 'toast-top-center'
+      //};
+      //toastr.info('You already have the app installed');
     }
 
     // Universal beforeinstallprompt
@@ -500,6 +501,7 @@
     });
   });
 </script>
+
 
 
 
