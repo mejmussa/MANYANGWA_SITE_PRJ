@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 
 <head>
     <meta charset="utf-8">
@@ -32,10 +32,9 @@
     }
     </script>
     <script>
-        // Auto-redirect to Kiswahili page if language is saved as "sw"
         const userLang = localStorage.getItem('siteLang');
-        if (userLang === 'sw' && !window.location.pathname.includes('sw-index.html')) {
-            window.location.href = 'sw-index.html';
+        if (userLang !== 'sw') {
+            window.location.href = 'index.html';
         }
     </script>
     <title>MANYANGWA Co. LTD | Manufacturer of Building Materials in Tanzania</title>
@@ -1142,6 +1141,8 @@
         }
     });
 </script>
+
+
 
 </body>
 </html>
