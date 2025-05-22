@@ -8,20 +8,20 @@
     <meta name="msvalidate.01" content="4262419A1E6FB9BE59D0DC80678A1F1E" />
 
     <!-- PWA Meta Tags -->
-    <link rel="manifest" href="/pwa/manifest.json">
-    <link rel="icon" href="/pwa/icons/icon-192x192.png" type="image/png">
+    <link rel="manifest" href="pwa/manifest.json">
+    <link rel="icon" href="pwa/icons/icon-192x192.png" type="image/png">
     <meta name="theme-color" content="#2b2b2b">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="TESMOC">
-    <link rel="apple-touch-icon" href="/pwa/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="pwa/icons/icon-192x192.png">
 
     <!-- Register Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {
-                navigator.serviceWorker.register("/pwa/service-worker.js").then(
+                navigator.serviceWorker.register("pwa/service-worker.js").then(
                     function (registration) {
                         console.log('Service Worker registered with scope:', registration.scope);
                     },
