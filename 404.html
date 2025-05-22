@@ -422,84 +422,52 @@
         });
     </script>
 
-      <script>
-  let deferredPrompt;
-  const installBtn = document.getElementById('installAppLink');
-
-  // Only show if not installed
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-
-  if (!isStandalone) {
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-
-      installBtn.style.display = 'inline-block'; // Show install button
-
-      installBtn.addEventListener('click', (event) => {
-        event.preventDefault();
-        installBtn.style.display = 'none'; // Hide button after click
-
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted the install prompt');
-          } else {
-            console.log('User dismissed the install prompt');
-            installBtn.style.display = 'inline-block'; // Show again if canceled
-          }
-          deferredPrompt = null;
-        });
-      });
-    });
-
-    // Hide install button after app is installed
-    window.addEventListener('appinstalled', () => {
-      installBtn.style.display = 'none';
-    });
-  }
-</script>
 
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     let deferredPrompt = null;
+
+    // Desktop elements
+    const installBtn = document.getElementById('installAppLink');
+
+    // Mobile elements
     const mobileContainer = document.getElementById('mobileInstallContainer');
     const mobileBtn = document.getElementById('mobileInstallBtn');
     const appWord = document.getElementById('mobileAppWord');
     const mobileText = document.getElementById('mobileInstallText');
     const closeIcon = document.getElementById('closeIcon');
 
-    let expanded = false;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isMobile = window.innerWidth <= 768;
 
-    // Check if app is already installed
-    const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches;
-
-    if (isAppInstalled) {
-      // Hide install UI
+    if (isStandalone) {
+      if (installBtn) installBtn.style.display = 'none';
       if (mobileContainer) mobileContainer.style.display = 'none';
 
-      // Show toastr message
       toastr.options = {
-        "closeButton": true,
-        "progressBar": true,
-        "timeOut": "5000", // 5 seconds
-        "positionClass": "toast-top-center"
+        closeButton: true,
+        progressBar: true,
+        timeOut: 5000,
+        positionClass: 'toast-top-center'
       };
       toastr.info('You already have the app installed');
     }
 
-    // Show only on mobile and if not installed
+    // Universal beforeinstallprompt
     window.addEventListener('beforeinstallprompt', (e) => {
-      if (window.innerWidth <= 768 && !isAppInstalled) {
-        e.preventDefault();
-        deferredPrompt = e;
+      if (isStandalone) return;
 
+      e.preventDefault();
+      deferredPrompt = e;
+
+      if (isMobile && mobileContainer) {
         mobileContainer.style.display = 'block';
+
+        let expanded = false;
 
         mobileBtn.onclick = (event) => {
           event.preventDefault();
-
           if (!expanded) {
             appWord.style.display = 'none';
             mobileText.style.display = 'inline';
@@ -508,19 +476,17 @@
             return;
           }
 
-          if (deferredPrompt) {
-            mobileContainer.style.display = 'none';
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-              if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted install');
-              } else {
-                console.log('User dismissed install');
-                mobileContainer.style.display = 'block';
-              }
-              deferredPrompt = null;
-            });
-          }
+          mobileContainer.style.display = 'none';
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(({ outcome }) => {
+            if (outcome === 'accepted') {
+              console.log('User accepted install');
+            } else {
+              console.log('User dismissed install');
+              mobileContainer.style.display = 'block';
+            }
+            deferredPrompt = null;
+          });
         };
 
         closeIcon.onclick = (e) => {
@@ -530,15 +496,35 @@
           appWord.style.display = 'inline';
           expanded = false;
         };
+      } else if (installBtn) {
+        installBtn.style.display = 'inline-block';
+
+        installBtn.onclick = (event) => {
+          event.preventDefault();
+          installBtn.style.display = 'none';
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(({ outcome }) => {
+            if (outcome === 'accepted') {
+              console.log('User accepted the install prompt');
+            } else {
+              console.log('User dismissed the install prompt');
+              installBtn.style.display = 'inline-block';
+            }
+            deferredPrompt = null;
+          });
+        };
       }
     });
 
-    // Hide if app is installed after prompt
+    // Installed
     window.addEventListener('appinstalled', () => {
-      mobileContainer.style.display = 'none';
+      if (installBtn) installBtn.style.display = 'none';
+      if (mobileContainer) mobileContainer.style.display = 'none';
+      localStorage.setItem('pwa_installed', 'true');
     });
   });
 </script>
+
 
 
 
