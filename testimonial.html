@@ -449,32 +449,6 @@
         // Set current year in copyright
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>  
-    
-    <script>
-        function saveLanguage() {
-            const selectedLang = document.querySelector('input[name="language"]:checked').value;
-            localStorage.setItem('siteLang', selectedLang);
-
-            // Show success message with toastr
-            toastr.success("Language saved successfully", "Success");
-
-            // Optional: reload after short delay
-            setTimeout(() => {
-                location.reload();
-            }, 1500); // 1.5 seconds
-        }
-
-        window.addEventListener("DOMContentLoaded", () => {
-            const lang = localStorage.getItem('siteLang');
-            if (lang) {
-                const radio = document.getElementById('lang-' + lang);
-                if (radio) {
-                    radio.checked = true;
-                }
-            }
-        });
-    </script>
-
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -580,37 +554,59 @@
 
 
 <script>
-    const mobileLangBtn = document.getElementById('mobileLangBtn');
-    const mobileLangDropdown = document.getElementById('mobileLangDropdown');
-    const dropdownContainer = mobileLangBtn.closest('.position-relative');
+    // Save selected language to localStorage and show Toastr message
+    function saveLanguage() {
+        const selectedLang = document.querySelector('input[name="language"]:checked')?.value;
+        if (!selectedLang) return;
 
-    // Toggle dropdown on globe icon click
-    mobileLangBtn.addEventListener('click', function (e) {
-        e.stopPropagation(); // Prevent the global click listener from firing
-        const isVisible = mobileLangDropdown.style.display === 'block';
-        mobileLangDropdown.style.display = isVisible ? 'none' : 'block';
-    });
+        localStorage.setItem('siteLang', selectedLang);
+        toastr.success("Language saved successfully", "Success");
 
-    // Prevent dropdown from closing when clicking inside it
-    mobileLangDropdown.addEventListener('click', function (e) {
-        e.stopPropagation();
-    });
-
-    // Hide dropdown if clicking outside
-    document.addEventListener('click', function (e) {
-        if (!dropdownContainer.contains(e.target)) {
+        // Close mobile dropdown if visible
+        const mobileLangDropdown = document.getElementById('mobileLangDropdown');
+        if (mobileLangDropdown && mobileLangDropdown.style.display === 'block') {
             mobileLangDropdown.style.display = 'none';
         }
-    });
 
-    // Save language and close dropdown
-    function saveLanguage() {
-        const selectedLang = document.querySelector('input[name="language"]:checked').value;
-        alert("Language saved: " + (selectedLang === 'en' ? 'English' : 'Kiswahili'));
-        mobileLangDropdown.style.display = 'none';
-        // Optionally, save to localStorage or backend here
+        // Optional: reload after short delay
+        setTimeout(() => {
+            location.reload();
+        }, 1500);
     }
-</script>
-</body>
 
+    // On page load
+    window.addEventListener('DOMContentLoaded', function () {
+        const savedLang = localStorage.getItem('siteLang') || 'en';
+        const radio = document.getElementById('lang-' + savedLang);
+        if (radio) {
+            radio.checked = true;
+        }
+
+        // Mobile-specific dropdown handling
+        const mobileLangBtn = document.getElementById('mobileLangBtn');
+        const mobileLangDropdown = document.getElementById('mobileLangDropdown');
+
+        if (mobileLangBtn && mobileLangDropdown) {
+            const dropdownContainer = mobileLangBtn.closest('.position-relative');
+
+            mobileLangBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                const isVisible = mobileLangDropdown.style.display === 'block';
+                mobileLangDropdown.style.display = isVisible ? 'none' : 'block';
+            });
+
+            mobileLangDropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!dropdownContainer.contains(e.target)) {
+                    mobileLangDropdown.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>
+
+</body>
 </html>
