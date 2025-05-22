@@ -34,8 +34,8 @@
     <script>
         // Auto-redirect to Kiswahili page if language is saved as "sw"
         const userLang = localStorage.getItem('siteLang');
-        if (userLang === 'sw' && !window.location.pathname.includes('sw-index.html')) {
-            window.location.href = 'sw-index.html';
+        if (userLang === 'sw' && !window.location.pathname.includes('sw-service.html')) {
+            window.location.href = 'sw-service.html';
         }
     </script>
     <title>MANYANGWA Co. LTD | Manufacturer of Building Materials in Tanzania</title>
@@ -622,7 +622,7 @@
 
         // Redirect after short delay
         setTimeout(() => {
-            window.location.href = selectedLang === 'sw' ? 'sw-index.html' : 'index.html';
+            window.location.href = selectedLang === 'sw' ? 'sw-service.html' : 'service.html';
         }, 1000);
     }
 
