@@ -1053,7 +1053,7 @@
 
     let expanded = false;
 
-    // Show only on mobile and if not installed
+    // Show only on mobile and if not already installed
     window.addEventListener('beforeinstallprompt', (e) => {
       if (window.innerWidth <= 768 && !window.matchMedia('(display-mode: standalone)').matches) {
         e.preventDefault();
@@ -1067,22 +1067,28 @@
           if (!expanded) {
             appWord.style.display = 'none';
             mobileText.style.display = 'inline';
+            mobileText.innerText = 'Install App';
             closeIcon.style.display = 'inline';
             expanded = true;
             return;
           }
 
           if (deferredPrompt) {
-            mobileContainer.style.display = 'none';
+            // Show "Installing..." while waiting
+            mobileText.innerText = 'Installing...';
+            closeIcon.style.display = 'none';
+
             deferredPrompt.prompt();
+
             deferredPrompt.userChoice.then((choiceResult) => {
               if (choiceResult.outcome === 'accepted') {
                 console.log('User accepted install');
-                // Optional: set a flag to indicate install accepted
-                sessionStorage.setItem('pwa-installed', 'true');
+                // Wait for appinstalled event to hide
               } else {
                 console.log('User dismissed install');
-                mobileContainer.style.display = 'block';
+                // Revert button to previous state
+                mobileText.innerText = 'Install App';
+                closeIcon.style.display = 'inline';
               }
               deferredPrompt = null;
             });
@@ -1099,32 +1105,18 @@
       }
     });
 
-    // After app is installed
+    // When app is installed, hide the button completely
     window.addEventListener('appinstalled', () => {
-      console.log('PWA installed');
-
+      console.log('App was installed');
       mobileContainer.style.display = 'none';
-
-      // Simulate app launch by redirecting to app URL or reloading
-      // Option 1: Use custom protocol (e.g., myapp://home) if supported
-      // window.location.href = "myapp://home";
-
-      // Option 2: Reload to enter standalone mode if possible
-      if (sessionStorage.getItem('pwa-installed') === 'true') {
-        sessionStorage.removeItem('pwa-installed');
-        setTimeout(() => {
-          window.location.reload();  // will open in app if clicked from home screen
-        }, 1000);
-      }
     });
 
-    // Hide if already opened in standalone mode
+    // Also hide if already opened in standalone mode
     if (window.matchMedia('(display-mode: standalone)').matches) {
       mobileContainer.style.display = 'none';
     }
   });
 </script>
-
 
 
 <script>
