@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="TAmnig_80IMCusWluLPn0a3SAEqUr-yI5cX_0X6VQz4" />
     <meta name="msvalidate.01" content="4262419A1E6FB9BE59D0DC80678A1F1E" />
+
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="/pwa/manifest.json">
     <link rel="icon" href="/pwa/icons/icon-192x192.png" type="image/png">
@@ -18,93 +19,90 @@
 
     <!-- Register Service Worker -->
     <script>
-    if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
-        navigator.serviceWorker.register("/pwa/service-worker.js").then(
-        function (registration) {
-            console.log('Service Worker registered with scope:', registration.scope);
-        },
-        function (err) {
-            console.log('Service Worker registration failed:', err);
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register("/pwa/service-worker.js").then(
+                    function (registration) {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                    },
+                    function (err) {
+                        console.log('Service Worker registration failed:', err);
+                    }
+                );
+            });
         }
-        );
-    });
-    }
     </script>
+
+    <!-- Redirect if not Swahili -->
     <script>
-        // Auto-redirect to Kiswahili page if language is saved as "sw"
         const userLang = localStorage.getItem('siteLang');
-        if (userLang === 'sw' && !window.location.pathname.includes('sw-index.html')) {
-            window.location.href = 'sw-index.html';
+        if (userLang !== 'sw') {
+            window.location.href = 'services.html';
         }
     </script>
-    <title>MANYANGWA Co. LTD | Manufacturer of Building Materials in Tanzania</title>
-    
-    
-    <!-- SEO Meta -->
-    <meta name="description" content="Trusted Tanzanian manufacturer of Skim Coat wall putty, Spectrum Paints and other building materials since 2011.">
-    <meta name="keywords" content="Skim Coat, Spectrum, Spectrum Paints, Manyangwa, building materials Tanzania, wall putty, construction supplies, binders, sealants, sustainable construction, Tanzanian manufacturers, Tanga, Handeni, paints, adhesives, PVA, Handeni, Dar-es-salaam, Tanzania">
+
+    <title>MANYANGWA Co. LTD | Watengenezaji wa Vifaa vya Ujenzi Tanzania</title>
+
+    <!-- SEO Meta Tags (in Swahili) -->
+    <meta name="description" content="Kampuni ya Manyangwa ni watengenezaji wanaoaminika wa Skim Coat, Rangi za Spectrum, na vifaa vingine vya ujenzi nchini Tanzania tangu mwaka 2011.">
+    <meta name="keywords" content="Skim Coat, Rangi Spectrum, Manyangwa, vifaa vya ujenzi Tanzania, plasta, rangi, binders, adhesives, vifaa vya ujenzi endelevu, wazalishaji wa ndani, Tanga, Handeni, Dar-es-Salaam">
     <meta name="author" content="Manyangwa Company Limited">
-    
-    <!-- Open Graph (Facebook & LinkedIn Preview) -->
-    <meta property="og:title" content="Manyangwa Co. LTD | Building Materials Manufacturer in Tanzania">
-    <meta property="og:description" content="A trusted Tanzanian manufacturer of high-quality Skim Coat wall putty, Spectrum Paints and other construction materials. Delivering innovation and quality since 2011.">
+
+    <!-- Open Graph (Facebook & LinkedIn) -->
+    <meta property="og:title" content="Manyangwa Co. LTD | Watengenezaji wa Vifaa vya Ujenzi Tanzania">
+    <meta property="og:description" content="Watengenezaji wa kuaminika wa Skim Coat na rangi bora za Spectrum nchini Tanzania tangu mwaka 2011.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.manyangwa.co.tz">
-    <meta property="og:image" content="img/logo.png"> <!-- Local static path -->
-    
+    <meta property="og:image" content="img/logo.png">
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Manyangwa Co. LTD | Building Materials Manufacturer in Tanzania">
-    <meta name="twitter:description" content="Reliable Tanzanian manufacturer of wall putty, binders, and construction products. Serving the industry since 2011.">
-    <meta name="twitter:image" content="img/logo.png"> <!-- Local static path -->
-    
+    <meta name="twitter:title" content="Manyangwa Co. LTD | Watengenezaji wa Vifaa vya Ujenzi Tanzania">
+    <meta name="twitter:description" content="Watengenezaji wa kuaminika wa Skim Coat, binders, na vifaa vya ujenzi nchini Tanzania tangu mwaka 2011.">
+    <meta name="twitter:image" content="img/logo.png">
+
     <!-- Favicon -->
     <link rel="icon" href="https://tesmoc.s3.eu-north-1.amazonaws.com/static/manyangwa_favicon/favicon.png" type="image/png">
-    
 
-    <!-- Google Web Fonts -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Icon Font Stylesheet -->
+    <!-- Icon Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Libraries Stylesheet -->
+    <!-- CSS Libraries -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
+    <!-- Bootstrap & Custom CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
-    <!-- Toastr JS -->
+    <!-- Toastr for Notifications -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+    <!-- Responsive Visibility -->
     <style>
-        /* Show elements by default */
         #installAppLink,
         .dropdown.ms-3 {
-        display: inline-block; /* or flex, your choice */
+            display: inline-block;
         }
 
-        /* Hide on small screens */
         @media (max-width: 768px) {
-        #installAppLink,
-        .dropdown.ms-3 {
-            display: none !important;
-        }
+            #installAppLink,
+            .dropdown.ms-3 {
+                display: none !important;
+            }
         }
     </style>
-    
 </head>
+
 <body>
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -119,14 +117,14 @@
         <div class="row gx-0 align-items-center d-none d-lg-flex">
             <div class="col-lg-6 px-5 text-start">
                 <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a class="small text-secondary" href="index.html">Home</a></li>
-                    <li class="breadcrumb-item"><a class="small text-secondary" href="team.html">Team</a></li>
-                    <li class="breadcrumb-item"><a class="small text-secondary" href="about.html">about us</a></li>
-                    <li class="breadcrumb-item"><a class="small text-secondary" href="about.html">services</a></li>
+                    <li class="breadcrumb-item"><a class="small text-secondary" href="index.html">Nyumbani</a></li>
+                    <li class="breadcrumb-item"><a class="small text-secondary" href="team.html">Timu</a></li>
+                    <li class="breadcrumb-item"><a class="small text-secondary" href="about.html">Kuhusu Sisi</a></li>
+                    <li class="breadcrumb-item"><a class="small text-secondary" href="about.html">Huduma</a></li>
                 </ol>
             </div>
             <div class="col-lg-6 px-5 text-end">
-                <small>Follow us:</small>
+                <small>Fatilia sisi:</small>
                 <div class="h-100 d-inline-flex align-items-center">
                     <a class="btn-square text-primary border-end rounded-0" href=""><i class="fab fa-facebook-f"></i></a>
                     <a class="btn-square text-primary border-end rounded-0" href=""><i class="fab fa-twitter"></i></a>
@@ -150,7 +148,6 @@
                     </h1>
                 </a>
             </div>
-
             <div class="col-lg-8 col-md-7 d-none d-lg-block">
                 <div class="row">
                     <div class="col-4">
@@ -159,7 +156,7 @@
                                 <i class="far fa-clock text-primary"></i>
                             </div>
                             <div class="ps-3">
-                                <p class="mb-2">Opening Hour</p>
+                                <p class="mb-2">Saa za Kufungua</p>
                                 <h6 class="mb-0">24/7, 8:00 AM – 6:00 PM</h6>
                             </div>
                         </div>
@@ -170,7 +167,7 @@
                                 <i class="fa fa-phone text-primary"></i>
                             </div>
                             <div class="ps-3">
-                                <p class="mb-2">Call Us</p>
+                                <p class="mb-2">Tupigie Simu</p>
                                 <h6 class="mb-0">+255 712 151 635</h6>
                             </div>
                         </div>
@@ -181,7 +178,7 @@
                                 <i class="far fa-envelope text-primary"></i>
                             </div>
                             <div class="ps-3">
-                                <p class="mb-2">Email Us</p>
+                                <p class="mb-2">Tuma Barua Pepe</p>
                                 <h6 class="mb-0">info@manyangwa.co.tz</h6>
                             </div>
                         </div>
@@ -209,7 +206,7 @@
                 <!-- Mobile Language Dropdown -->
                 <div id="mobileLangDropdown" class="position-absolute bg-white rounded shadow p-3"
                     style="top: 110%; right: 0; width: 220px; display: none; z-index: 1050;">
-                    <h6 class="mb-2">Choose Language</h6>
+                    <h6 class="mb-2">Chagua Lugha</h6>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="mobile-language" id="lang-en-mobile" value="en">
                         <label class="form-check-label" for="lang-en-mobile">English</label>
@@ -218,7 +215,7 @@
                         <input class="form-check-input" type="radio" name="mobile-language" id="lang-sw-mobile" value="sw">
                         <label class="form-check-label" for="lang-sw-mobile">Kiswahili</label>
                     </div>
-                    <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage('mobile')">Save</button>
+                    <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage('mobile')">Hifadhi</button>
                 </div>
             </div>
 
@@ -230,27 +227,25 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav me-auto p-3 p-lg-0">
-                <a href="index.html" class="nav-item nav-link">Home</a>
-                <a href="about.html" class="nav-item nav-link">About Us</a>
-                <a href="service.html" class="nav-item nav-link">Services</a>
-                <a href="team.html" class="nav-item nav-link">Team</a>
-                <a href="testimonial.html" class="nav-item nav-link">Testimonials</a>
-                <a href="contact.html" class="nav-item nav-link">Contact Us</a>
+                <a href="index.html" class="nav-item nav-link">Nyumbani</a>
+                <a href="about.html" class="nav-item nav-link">Kuhusu Sisi</a>
+                <a href="service.html" class="nav-item nav-link">Huduma</a>
+                <a href="team.html" class="nav-item nav-link">Timu</a>
+                <a href="testimonial.html" class="nav-item nav-link">Ushuhuda</a>
+                <a href="contact.html" class="nav-item nav-link">Wasiliana Nasi</a>
             </div>
-            <!---<a href="#" class="btn btn-sm btn-light rounded-pill py-2 px-4 d-none d-lg-block">Get Started</a>-->
+            <!---<a href="#" class="btn btn-sm btn-light rounded-pill py-2 px-4 d-none d-lg-block">Anza</a>-->
             <a id="installAppLink" class="btn btn-sm btn-light rounded-pill py-2 px-4" href="#" style="display: none;">
-                <span id="installAppText">Install App</span>
+                <span id="installAppText">Sakinisha App</span>
             </a>
-
-
 
             <!-- Desktop Language Dropdown -->
             <div class="dropdown ms-3">
                 <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-globe"></i> Language
+                    <i class="fas fa-globe"></i> Lugha
                 </button>
                 <div class="dropdown-menu p-3" aria-labelledby="languageDropdown" style="min-width: 200px;">
-                    <h6 class="dropdown-header">Choose Language</h6>
+                    <h6 class="dropdown-header">Chagua Lugha</h6>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="desktop-language" id="lang-en-desktop" value="en">
                         <label class="form-check-label" for="lang-en-desktop">English</label>
@@ -259,7 +254,7 @@
                         <input class="form-check-input" type="radio" name="desktop-language" id="lang-sw-desktop" value="sw">
                         <label class="form-check-label" for="lang-sw-desktop">Kiswahili</label>
                     </div>
-                    <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage('desktop')">Save</button>
+                    <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage('desktop')">Hifadhi</button>
                 </div>
             </div>
         </div>
@@ -273,7 +268,7 @@
             <span id="mobileAppWord" class="fst-italic">App</span>
 
             <!-- Expanded text -->
-            <span id="mobileInstallText" class="fst-italic" style="display: none;">Install App</span>
+            <span id="mobileInstallText" class="fst-italic" style="display: none;">Pakua App</span>
 
             <!-- Close icon -->
             <i class="fas fa-times ms-2" id="closeIcon" style="display: none; cursor: pointer;"></i>
@@ -284,13 +279,12 @@
     <!-- Page Header Start -->
     <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
-            <h2 class="display-4 text-white animated slideInDown mb-3">About Us</h2>
+            <h2 class="display-4 text-white animated slideInDown mb-3">Mawasiliano</h2>
             <nav aria-label="breadcrumb animated slideInDown">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a class="small text-secondary" href="index.html">Home</a></li>
-                    <li class="breadcrumb-item"><a class="small text-secondary" href="team.html">Career</a></li>
-                    <li class="breadcrumb-item"><a class="small text-secondary" href="about.html">Terms</a></li>
-                    <li class="breadcrumb-item"><a class="small text-secondary" href="about.html">Privacy</a></li>
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="#">Nyumbani</a></li>
+                    <li class="breadcrumb-item"><a class="text-white" href="#">Kurasa</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Mawasiliano</li>
                 </ol>
             </nav>
         </div>
@@ -298,30 +292,116 @@
     <!-- Page Header End -->
 
 
-    <!-- 404 Start -->
-    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="container text-center">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <i class="bi bi-exclamation-triangle display-1 text-primary"></i>
-                    <h1 class="display-1">404</h1>
-                    <h1 class="mb-4">Page Not Found</h1>
-                    <p class="mb-4">We’re sorry, the page you have looked for does not exist in our website! Maybe go to our home page or try to use a search?</p>
-                    <a class="btn btn-primary rounded-pill py-3 px-5" href="index.html">Go Back To Home</a>
+    <!-- Service Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <h6 class="section-title bg-white text-center text-primary px-3">Huduma</h6>
+                <h2 class="display-6 mb-4">Tunazingatia Kutengeneza Vifaa Bora vya Ujenzi</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <a class="service-item d-block rounded text-center h-100 p-4" href="">
+                        <img class="img-fluid rounded mb-4" src="img/service-1.jpg" alt="picha">
+                        <h4 class="mb-0">Skim Coat Wall Putty</h4>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <a class="service-item d-block rounded text-center h-100 p-4" href="">
+                        <img class="img-fluid rounded mb-4" src="img/service-2.jpg" alt="picha">
+                        <h4 class="mb-0">Rangi za Spectrum</h4>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <a class="service-item d-block rounded text-center h-100 p-4" href="">
+                        <img class="img-fluid rounded mb-4" src="img/service-3.jpg" alt="picha">
+                        <h4 class="mb-0">SpectTex <strong>Muundo wa Kuta</strong></h4>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- 404 End -->
-        
+    <!-- Service End -->
+
+
+    <!-- Testimonial Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <h6 class="section-title bg-white text-center text-primary px-3">Ushuhuda</h6>
+                <h2 class="display-6 mb-4">Wanaojulikana na Wajenzi Kutoka Tanzania Nzima</h2>
+            </div>
+            <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+
+                <!-- Ushuhuda 1 -->
+                <div class="testimonial-item bg-light rounded p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <img class="flex-shrink-0 rounded-circle border p-1" src="img/testimonial-4.jpg" alt="Mkandarasi">
+                        <div class="ms-4">
+                            <h5 class="mb-1">Eng. Alfredy</h5>
+                            <span>Mkandarasi wa Ujenzi, Tanga</span>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        <strong>Skim Coat Wall Putty</strong> ya Manyangwa hutoa uso laini na imara, ikifanya kazi zetu za kupaka rangi kudumu zaidi.
+                    </p>
+                </div>
+
+                <!-- Ushuhuda 2 -->
+                <div class="testimonial-item bg-light rounded p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <img class="flex-shrink-0 rounded-circle border p-1" src="img/testimonial-2.jpg" alt="Mjenzi">
+                        <div class="ms-4">
+                            <h5 class="mb-1">Salimu Lusingo</h5>
+                            <span>Mjenzi wa Mali Isiyohamishika, Dar es Salaam</span>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        <strong>SpecTex Wall Texture</strong> huongeza muonekano mzuri na uimara kwenye miradi yetu yote. Usafirishaji wa Manyangwa huwa wa wakati na wa kuaminika.
+                    </p>
+                </div>
+
+                <!-- Ushuhuda 3 -->
+                <div class="testimonial-item bg-light rounded p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <img class="flex-shrink-0 rounded-circle border p-1" src="img/testimonial-7.jpg" alt="Mchora Mitaala">
+                        <div class="ms-4">
+                            <h5 class="mb-1">Eng. Tollo</h5>
+                            <span>Mchora Mitaala & Mshauri wa Miradi</span>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        <strong>Rangi za Spectrum</strong> za Manyangwa zinahakikisha ubora wa mara kwa mara na rangi nzuri, zikifanya mwisho wa miradi kuonekana vizuri zaidi.
+                    </p>
+                </div>
+
+                <!-- Ushuhuda 4 -->
+                <div class="testimonial-item bg-light rounded p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <img class="flex-shrink-0 rounded-circle border p-1" src="img/testimonial-0.jpg" alt="Mjenezaji Mdogo">
+                        <div class="ms-4">
+                            <h5 class="mb-1">Eng. Jacob</h5>
+                            <span>Mjenezaji Huru, Morogoro</span>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        Manyangwa hutoa bei shindani na usafirishaji wa kuaminika, kuhakikisha ninapata vifaa bora vinavyofikishwa kwa wakati.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Testimonial End -->
+
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-body footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
-                    <h5 class="text-light mb-4">Address</h5>
-                    <p class="mb-1"><i class="fa fa-map-marker-alt me-2"></i>Kwediyamba, Nderema, Tanga</p>
+                    <h5 class="text-light mb-4">Anuani</h5>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Kwediyamba, Nderema, Tanga</p>
                     <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+255 712 151 635</p>
                     <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@manyangwa.co.tz</p>
                     <div class="d-flex pt-2">
@@ -332,42 +412,42 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h5 class="text-light mb-4">Quick Links</h5>
-                    <a class="btn btn-link" href="about.html">About Us</a>
-                    <a class="btn btn-link" href="contact.html">Contact Us</a>
-                    <a class="btn btn-link" href="service.html">Our Services</a>
-                    <a class="btn btn-link" href="about.html">Terms & Condition</a>
-                    <a class="btn btn-link" href="contact.html">Support</a>
+                    <h5 class="text-light mb-4">Viungo Muhimu</h5>
+                    <a class="btn btn-link" href="about.html">Kuhusu Sisi</a>
+                    <a class="btn btn-link" href="contact.html">Wasiliana Nasi</a>
+                    <a class="btn btn-link" href="service.html">Huduma Zetu</a>
+                    <a class="btn btn-link" href="about.html">Masharti na Masharti</a>
+                    <a class="btn btn-link" href="contact.html">Msaada</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h5 class="text-light mb-4">Gallery</h5>
+                    <h5 class="text-light mb-4">Galleria</h5>
                     <div class="row g-2">
                         <div class="col-4">
-                            <img class="img-fluid rounded" src="img/project-1.jpg" alt="Image">
+                            <img class="img-fluid rounded" src="img/project-1.jpg" alt="Picha">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid rounded" src="img/project-2.jpg" alt="Image">
+                            <img class="img-fluid rounded" src="img/project-2.jpg" alt="Picha">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid rounded" src="img/project-3.jpg" alt="Image">
+                            <img class="img-fluid rounded" src="img/project-3.jpg" alt="Picha">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid rounded" src="img/project-4.jpg" alt="Image">
+                            <img class="img-fluid rounded" src="img/project-4.jpg" alt="Picha">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid rounded" src="img/project-5.jpg" alt="Image">
+                            <img class="img-fluid rounded" src="img/project-5.jpg" alt="Picha">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid rounded" src="img/project-6.jpg" alt="Image">
+                            <img class="img-fluid rounded" src="img/project-6.jpg" alt="Picha">
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h5 class="text-light mb-4">Newsletter</h5>
-                    <p>Subscribe to get the latest updates, offers, and news from Mayangwa Company Limited.</p>
+                    <h5 class="text-light mb-4">Jarida la Habari</h5>
+                    <p>Jisajili kupata habari za karibuni, ofa, na matangazo kutoka Kampuni ya Mayangwa Limited.</p>
                     <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <input class="form-control bg-transparent border-secondary w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                        <input class="form-control bg-transparent border-secondary w-100 py-3 ps-4 pe-5" type="text" placeholder="Barua pepe yako">
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">Jisajili</button>
                     </div>
                 </div>
             </div>
@@ -376,7 +456,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 copyright">
-                        &copy; <span id="current-year"></span> <a href="#">MANYANGWA Co.LTD</a>, All Rights Reserved.
+                        &copy; <span id="current-year"></span> <a href="#">MANYANGWA Co.LTD</a>, Haki Zote Zimelindwa.
                     </div>
                 </div>
             </div>
@@ -404,7 +484,7 @@
     <script>
         // Set current year in copyright
         document.getElementById('current-year').textContent = new Date().getFullYear();
-    </script> 
+    </script>  
 
 
 <script>
@@ -510,7 +590,6 @@
 
 
 
-
 <script>
     function saveLanguage(source) {
         const name = source === 'mobile' ? 'mobile-language' : 'desktop-language';
@@ -529,7 +608,7 @@
 
         // Redirect after short delay
         setTimeout(() => {
-            window.location.href = selectedLang === 'sw' ? 'sw-index.html' : 'index.html';
+            window.location.href = selectedLang === 'sw' ? 'sw-services.html' : 'services.html';
         }, 1000);
     }
 

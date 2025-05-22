@@ -31,6 +31,13 @@
     });
     }
     </script>
+    <script>
+        // Auto-redirect to Kiswahili page if language is saved as "sw"
+        const userLang = localStorage.getItem('siteLang');
+        if (userLang === 'sw' && !window.location.pathname.includes('sw-index.html')) {
+            window.location.href = 'sw-index.html';
+        }
+    </script>
     <title>MANYANGWA Co. LTD | Manufacturer of Building Materials in Tanzania</title>
     
     
@@ -191,26 +198,26 @@
 
         <!-- Mobile Icons Group (Language + Toggler) -->
         <div class="d-lg-none d-flex align-items-center me-3" style="gap: 16px;">
-            <!-- Language Icon for Mobile -->
+            <!-- Mobile Language Button -->
             <div class="position-relative">
                 <button class="btn btn-sm btn-light rounded-circle" id="mobileLangBtn">
                     <i class="fas fa-globe"></i>
                 </button>
                 <i class="fas fa-caret-down text-white" style="font-size: 0.8rem; margin-left: 0.1cm;"></i>
 
-                <!-- Language Dropdown Overlay -->
-                <div id="mobileLangDropdown" class="position-absolute bg-white rounded shadow p-3" style="top: 110%; right: 0; width: 220px; display: none; z-index: 1050;">
+                <!-- Mobile Language Dropdown -->
+                <div id="mobileLangDropdown" class="position-absolute bg-white rounded shadow p-3"
+                    style="top: 110%; right: 0; width: 220px; display: none; z-index: 1050;">
                     <h6 class="mb-2">Choose Language</h6>
-                    <!-- MOBILE language dropdown -->
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="language" id="lang-en-mobile" value="en">
+                        <input class="form-check-input" type="radio" name="mobile-language" id="lang-en-mobile" value="en">
                         <label class="form-check-label" for="lang-en-mobile">English</label>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="language" id="lang-sw-mobile" value="sw">
+                        <input class="form-check-input" type="radio" name="mobile-language" id="lang-sw-mobile" value="sw">
                         <label class="form-check-label" for="lang-sw-mobile">Kiswahili</label>
                     </div>
-                    <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage()">Save</button>
+                    <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage('mobile')">Save</button>
                 </div>
             </div>
 
@@ -236,23 +243,22 @@
 
 
 
-            <!-- Language Dropdown (positioned directly below the button) -->
+            <!-- Desktop Language Dropdown -->
             <div class="dropdown ms-3">
                 <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-globe"></i> Language
                 </button>
                 <div class="dropdown-menu p-3" aria-labelledby="languageDropdown" style="min-width: 200px;">
                     <h6 class="dropdown-header">Choose Language</h6>
-                    <!-- DESKTOP language dropdown -->
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="language" id="lang-en-desktop" value="en">
+                        <input class="form-check-input" type="radio" name="desktop-language" id="lang-en-desktop" value="en">
                         <label class="form-check-label" for="lang-en-desktop">English</label>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="language" id="lang-sw-desktop" value="sw">
+                        <input class="form-check-input" type="radio" name="desktop-language" id="lang-sw-desktop" value="sw">
                         <label class="form-check-label" for="lang-sw-desktop">Kiswahili</label>
                     </div>
-                    <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage()">Save</button>
+                    <button class="btn btn-primary btn-sm w-100" onclick="saveLanguage('desktop')">Save</button>
                 </div>
             </div>
         </div>
@@ -558,63 +564,55 @@
 
 
 <script>
-    // Save selected language to localStorage and show Toastr message
-    function saveLanguage() {
-        const selectedLang = document.querySelector('input[name="language"]:checked')?.value;
+    function saveLanguage(source) {
+        const name = source === 'mobile' ? 'mobile-language' : 'desktop-language';
+        const selectedLang = document.querySelector(`input[name="${name}"]:checked`)?.value;
+
         if (!selectedLang) return;
 
         localStorage.setItem('siteLang', selectedLang);
         toastr.success("Language saved successfully", "Success");
 
-        // Close mobile dropdown if visible
+        // Close mobile dropdown if open
         const mobileLangDropdown = document.getElementById('mobileLangDropdown');
-        if (mobileLangDropdown && mobileLangDropdown.style.display === 'block') {
+        if (mobileLangDropdown && source === 'mobile') {
             mobileLangDropdown.style.display = 'none';
         }
 
-        // Reload page after short delay
+        // Redirect after short delay
         setTimeout(() => {
-            location.reload();
-        }, 1500);
+            window.location.href = selectedLang === 'sw' ? 'sw-index.html' : 'index.html';
+        }, 1000);
     }
 
-    // On page load
-    window.addEventListener('DOMContentLoaded', function () {
+    window.addEventListener('load', function () {
         const savedLang = localStorage.getItem('siteLang') || 'en';
 
-        // Check appropriate desktop radio
         const desktopRadio = document.getElementById(`lang-${savedLang}-desktop`);
-        if (desktopRadio) {
-            desktopRadio.checked = true;
-        }
-
-        // Check appropriate mobile radio
         const mobileRadio = document.getElementById(`lang-${savedLang}-mobile`);
-        if (mobileRadio) {
-            mobileRadio.checked = true;
-        }
 
-        // Mobile-specific dropdown behavior
+        if (desktopRadio) desktopRadio.checked = true;
+        if (mobileRadio) mobileRadio.checked = true;
+
         const mobileLangBtn = document.getElementById('mobileLangBtn');
         const mobileLangDropdown = document.getElementById('mobileLangDropdown');
 
         if (mobileLangBtn && mobileLangDropdown) {
-            const dropdownContainer = mobileLangBtn.closest('.position-relative');
+            const container = mobileLangBtn.closest('.position-relative');
 
             mobileLangBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
-                const isVisible = mobileLangDropdown.style.display === 'block';
-                mobileLangDropdown.style.display = isVisible ? 'none' : 'block';
-            });
-
-            mobileLangDropdown.addEventListener('click', function (e) {
-                e.stopPropagation();
+                mobileLangDropdown.style.display = mobileLangDropdown.style.display === 'block' ? 'none' : 'block';
             });
 
             document.addEventListener('click', function (e) {
-                if (!dropdownContainer.contains(e.target)) {
+                if (!container.contains(e.target)) {
                     mobileLangDropdown.style.display = 'none';
                 }
+            });
+
+            mobileLangDropdown.addEventListener('click', function (e) {
+                e.stopPropagation(); // prevent closing when clicking inside
             });
         }
     });
