@@ -1,8 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html id="manyangwa" lang="en">
 
 <head>
     <meta charset="utf-8">
+    <script>
+      // Full encrypted content (base64-encoded HTML string)
+      const encryptedHTML = "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KICA8aGVhZD4KICAgIDxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KICAgIDx0aXRsZT5NYW55YW5nd2E8L3RpdGxlPgogICAgPHN0eWxlPgogICAgICBib2R5IHsgYmFja2dyb3VuZDogIzAwMDsgY29sb3I6ICNmZmY7IGZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBtYXJnaW46IDA7IHBhZGRpbmc6IDIwcHg7IH0KICAgICAgYSAgeyBjb2xvcjogI2ZmZDsgdGV4dC1kZWNvcmF0aW9uOiBub25lOyB9CiAgICA8L3N0eWxlPgogIDwvaGVhZD4KICA8Ym9keT4KICAgIDxoMT5XZWxjb21lIHRvIE1hbnlhbmd3YTwvaDE+CiAgICA8cD5UaGlzIHBhZ2UgaXMgZnVsbHkgb2JmdXNjYXRlZC4gSXQncyBhIHByb29mIG9mIGNvbmNlcHQuPC9wPgogICAgPGEgaHJlZj0iaHR0cHM6Ly9naXRodWIuY29tL01hbnlhbmd3YSI+VmlldyBTb3VyY2U8L2E+CiAgPC9ib2R5Pgo8L2h0bWw+";
+
+      // Decode Base64 and replace entire document with real HTML
+      const html = atob(encryptedHTML);
+      document.open();
+      document.write(html);
+      document.close();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="TAmnig_80IMCusWluLPn0a3SAEqUr-yI5cX_0X6VQz4" />
     <meta name="msvalidate.01" content="4262419A1E6FB9BE59D0DC80678A1F1E" />
@@ -980,7 +990,7 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script src="js/disable-right-click.js"></script>
+    <!--<script src="js/disable-right-click.js"></script>-->
     <script>
         // Set current year in copyright
         document.getElementById('current-year').textContent = new Date().getFullYear();
