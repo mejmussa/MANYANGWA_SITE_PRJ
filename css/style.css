@@ -14,7 +14,21 @@
     z-index: 99;
 }
 
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: white;
+  }
 
+  /* For Android bottom nav icons */
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    /* IE11 specific styles go here */
+  }
+  
+  :root {
+    --status-bar-color: #121212;
+  }
+}
 /*** Spinner ***/
 #spinner {
     opacity: 0;

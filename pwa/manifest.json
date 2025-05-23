@@ -3,8 +3,8 @@
   "short_name": "Manyangwa",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#009CFF",
+  "background_color": "#222222",
+  "theme_color": "#222222",
   "description": "A Tanzanian company specializing in the manufacturing of high-quality wall putty and paints.",
   "icons": [
     {
