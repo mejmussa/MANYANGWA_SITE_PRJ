@@ -101,7 +101,24 @@
             display: none !important;
         }
         }
-    </style>
+
+.inline-loader {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
 
 </head>
 
@@ -1031,11 +1048,16 @@
 
           // Show toastr installing loader
           toastr.info(
-            `<i class="fas fa-spinner fa-spin"></i> Installing...`,
+            `<span class="inline-loader"></span> Installing...`,
             'PWA Installation',
-            { timeOut: 0, extendedTimeOut: 0, tapToDismiss: false, closeButton: false, allowHtml: true }
-          );
-
+            {
+                timeOut: 0,
+                extendedTimeOut: 0,
+                tapToDismiss: false,
+                closeButton: false,
+                allowHtml: true
+            }
+            );
           deferredPrompt.userChoice.then(({ outcome }) => {
             if (outcome === 'accepted') {
               console.log('User accepted install');
