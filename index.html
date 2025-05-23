@@ -1065,7 +1065,7 @@
 
           // Show toastr installing loader
           toastr.info(
-            `<img src="/path/to/loader.gif" style="width:20px;vertical-align:middle;margin-right:5px;"> Installing...`,
+            `<i class="fas fa-spinner fa-spin"></i> Installing...`,
             'PWA Installation',
             { timeOut: 0, extendedTimeOut: 0, tapToDismiss: false, closeButton: false, allowHtml: true }
           );
@@ -1094,7 +1094,7 @@
 
       // Show success toastr with tick icon
       toastr.success(
-        `<img src="/path/to/tick.png" style="width:20px;vertical-align:middle;margin-right:5px;"> App successfully installed. Go to your home screen to use it.`,
+        `<i class="fas fa-check-circle"></i> App successfully installed. Go to your home screen to use it.`,
         'Installation Complete',
         { timeOut: 4000, closeButton: true, allowHtml: true }
       );
