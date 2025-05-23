@@ -1011,10 +1011,8 @@
       e.preventDefault();
       deferredPrompt = e;
 
-      // Show prompt UI
       if (isMobile && mobileContainer) {
         mobileContainer.style.display = 'block';
-
         let expanded = false;
 
         mobileBtn.onclick = (event) => {
@@ -1030,7 +1028,6 @@
           mobileContainer.style.display = 'none';
           deferredPrompt.prompt();
 
-          // 🔔 Always show installing toastr — mobile or desktop
           toastr.info(
             `<i class="fas fa-spinner fa-spin"></i> Installing...`,
             'PWA Installation',
@@ -1044,17 +1041,13 @@
           );
 
           deferredPrompt.userChoice.then(({ outcome }) => {
-            toastr.clear();
             if (outcome === 'accepted') {
               console.log('User accepted install');
-              toastr.success(
-                `<i class="fas fa-check-circle"></i> App installed. Check your home screen.`,
-                'Installed',
-                { timeOut: 4000, closeButton: true, allowHtml: true }
-              );
+              // Do nothing yet — wait for appinstalled
             } else {
               console.log('User dismissed install');
               mobileContainer.style.display = 'block';
+              toastr.clear();
               toastr.warning('Installation cancelled.', 'Cancelled');
             }
             deferredPrompt = null;
@@ -1070,7 +1063,6 @@
         };
       }
 
-      // Desktop handling
       if (installBtn) {
         installBtn.style.display = 'inline-block';
 
@@ -1092,17 +1084,13 @@
           );
 
           deferredPrompt.userChoice.then(({ outcome }) => {
-            toastr.clear();
             if (outcome === 'accepted') {
               console.log('User accepted install');
-              toastr.success(
-                `<i class="fas fa-check-circle"></i> App installed. Check your home screen.`,
-                'Installed',
-                { timeOut: 4000, closeButton: true, allowHtml: true }
-              );
+              // Don't show success yet
             } else {
               console.log('User dismissed install');
               installBtn.style.display = 'inline-block';
+              toastr.clear();
               toastr.warning('Installation cancelled.', 'Cancelled');
             }
             deferredPrompt = null;
@@ -1111,7 +1099,6 @@
       }
     });
 
-    // App installed event (works on all devices)
     window.addEventListener('appinstalled', () => {
       if (installBtn) installBtn.style.display = 'none';
       if (mobileContainer) mobileContainer.style.display = 'none';
