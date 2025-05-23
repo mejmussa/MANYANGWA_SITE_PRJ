@@ -990,10 +990,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     let deferredPrompt = null;
 
-    // Desktop elements
     const installBtn = document.getElementById('installAppLink');
-
-    // Mobile elements
     const mobileContainer = document.getElementById('mobileInstallContainer');
     const mobileBtn = document.getElementById('mobileInstallBtn');
     const appWord = document.getElementById('mobileAppWord');
@@ -1008,7 +1005,6 @@
       if (mobileContainer) mobileContainer.style.display = 'none';
     }
 
-    // Universal beforeinstallprompt
     window.addEventListener('beforeinstallprompt', (e) => {
       if (isStandalone) return;
 
@@ -1032,12 +1028,21 @@
 
           mobileContainer.style.display = 'none';
           deferredPrompt.prompt();
+
+          // Show toastr installing loader
+          toastr.info(
+            `<i class="fas fa-spinner fa-spin"></i> Installing...`,
+            'PWA Installation',
+            { timeOut: 0, extendedTimeOut: 0, tapToDismiss: false, closeButton: false, allowHtml: true }
+          );
+
           deferredPrompt.userChoice.then(({ outcome }) => {
             if (outcome === 'accepted') {
               console.log('User accepted install');
             } else {
               console.log('User dismissed install');
               mobileContainer.style.display = 'block';
+              toastr.clear(); // Remove loading toastr
             }
             deferredPrompt = null;
           });
@@ -1057,12 +1062,21 @@
           event.preventDefault();
           installBtn.style.display = 'none';
           deferredPrompt.prompt();
+
+          // Show toastr installing loader
+          toastr.info(
+            `<img src="/path/to/loader.gif" style="width:20px;vertical-align:middle;margin-right:5px;"> Installing...`,
+            'PWA Installation',
+            { timeOut: 0, extendedTimeOut: 0, tapToDismiss: false, closeButton: false, allowHtml: true }
+          );
+
           deferredPrompt.userChoice.then(({ outcome }) => {
             if (outcome === 'accepted') {
               console.log('User accepted the install prompt');
             } else {
               console.log('User dismissed the install prompt');
               installBtn.style.display = 'inline-block';
+              toastr.clear(); // Remove loading toastr
             }
             deferredPrompt = null;
           });
@@ -1070,14 +1084,24 @@
       }
     });
 
-    // Installed
     window.addEventListener('appinstalled', () => {
       if (installBtn) installBtn.style.display = 'none';
       if (mobileContainer) mobileContainer.style.display = 'none';
       localStorage.setItem('pwa_installed', 'true');
+
+      // Clear installing toastr
+      toastr.clear();
+
+      // Show success toastr with tick icon
+      toastr.success(
+        `<img src="/path/to/tick.png" style="width:20px;vertical-align:middle;margin-right:5px;"> App successfully installed. Go to your home screen to use it.`,
+        'Installation Complete',
+        { timeOut: 4000, closeButton: true, allowHtml: true }
+      );
     });
   });
 </script>
+
 
 
 
