@@ -990,6 +990,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     let deferredPrompt = null;
+    let installTimeout = null;
 
     const installBtn = document.getElementById('installAppLink');
     const mobileContainer = document.getElementById('mobileInstallContainer');
@@ -1028,22 +1029,29 @@
           mobileContainer.style.display = 'none';
           deferredPrompt.prompt();
 
-          toastr.info(
-            `<i class="fas fa-spinner fa-spin"></i> Installing...`,
-            'PWA Installation',
-            {
-              timeOut: 0,
-              extendedTimeOut: 0,
-              tapToDismiss: false,
-              closeButton: false,
-              allowHtml: true
-            }
-          );
-
+          // Start spinner only AFTER the user interacts with the prompt
           deferredPrompt.userChoice.then(({ outcome }) => {
             if (outcome === 'accepted') {
               console.log('User accepted install');
-              // Do nothing yet — wait for appinstalled
+
+              // Show spinner now
+              toastr.info(
+                `<i class="fas fa-spinner fa-spin"></i> Installing...`,
+                'PWA Installation',
+                {
+                  timeOut: 0,
+                  extendedTimeOut: 0,
+                  tapToDismiss: false,
+                  closeButton: false,
+                  allowHtml: true
+                }
+              );
+
+              // Set timeout fallback
+              installTimeout = setTimeout(() => {
+                toastr.clear();
+                toastr.warning('Installation may take longer than expected.', 'Still installing...');
+              }, 8000);
             } else {
               console.log('User dismissed install');
               mobileContainer.style.display = 'block';
@@ -1071,22 +1079,26 @@
           installBtn.style.display = 'none';
           deferredPrompt.prompt();
 
-          toastr.info(
-            `<i class="fas fa-spinner fa-spin"></i> Installing...`,
-            'PWA Installation',
-            {
-              timeOut: 0,
-              extendedTimeOut: 0,
-              tapToDismiss: false,
-              closeButton: false,
-              allowHtml: true
-            }
-          );
-
           deferredPrompt.userChoice.then(({ outcome }) => {
             if (outcome === 'accepted') {
               console.log('User accepted install');
-              // Don't show success yet
+
+              toastr.info(
+                `<i class="fas fa-spinner fa-spin"></i> Installing...`,
+                'PWA Installation',
+                {
+                  timeOut: 0,
+                  extendedTimeOut: 0,
+                  tapToDismiss: false,
+                  closeButton: false,
+                  allowHtml: true
+                }
+              );
+
+              installTimeout = setTimeout(() => {
+                toastr.clear();
+                toastr.warning('Installation may take longer than expected.', 'Still installing...');
+              }, 8000);
             } else {
               console.log('User dismissed install');
               installBtn.style.display = 'inline-block';
@@ -1104,6 +1116,8 @@
       if (mobileContainer) mobileContainer.style.display = 'none';
       localStorage.setItem('pwa_installed', 'true');
 
+      clearTimeout(installTimeout);
+
       toastr.clear();
       toastr.success(
         `<i class="fas fa-check-circle"></i> App successfully installed. Go to your home screen to use it.`,
@@ -1113,8 +1127,6 @@
     });
   });
 </script>
-
-
 
 
 
